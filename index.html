@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Lunchly Soccer Stats</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Specific styles for the landing page */
+        .welcome-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically if enough space */
+            text-align: center;
+            max-width: 600px; /* Limit content width */
+            margin: auto; /* Center the content block itself */
+            padding: 20px;
+        }
+
+        .welcome-content img {
+            max-width: 200px; /* Adjust logo size as needed */
+            height: auto;
+            margin-bottom: 30px; /* Space below the logo */
+            border-radius: 8px; /* Consistent rounded corners */
+        }
+
+        .welcome-message {
+            font-size: 2.5em; /* Large, bold welcome text */
+            font-weight: 800;
+            color: var(--dark-blue);
+            margin-bottom: 40px; /* Space below the welcome message */
+            line-height: 1.2;
+        }
+
+        /* Responsive adjustments for welcome page */
+        @media (max-width: 768px) {
+            .welcome-message {
+                font-size: 1.8em;
+            }
+            .welcome-content img {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container welcome-content">
+        <!-- Logo for the welcome page -->
+        <img src="logo.png" alt="ISL Logo">
+
+        <!-- Welcome message -->
+        <h1 class="welcome-message">Welcome to the ISL</h1>
+
+        <!-- Button to go to the stats page -->
+        <a href="stats.html" class="stat-button">STATPAGE</a>
+    </div>
+</body>
+</html>

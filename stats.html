@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunchly Soccer Stats - Players</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Specific styles for the stats page */
+        .top-navigation {
+            width: 100%;
+            text-align: left; /* Align button to the left */
+            margin-bottom: 20px; /* Space between button and header */
+        }
+
+        /* Adjustments for the main content to not overlap the button */
+        .container {
+            padding-top: 20px; /* Add some padding at the top if needed, or rely on margin-top for top-navigation */
+        }
+
+        /* Small button styling for navigation */
+        .nav-button {
+            background-color: var(--dark-blue);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em; /* Smaller font for navigation */
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            background-color: var(--orange);
+        }
+
+        /* Ensure header and table remain centered below the nav button */
+        .header {
+            margin-top: 0; /* Reset margin-top from previous version if it conflicts */
+        }
+
+        /* Basic styling for loading indicator */
+        #loading-message {
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--dark-blue);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Button to go back to homepage -->
+        <div class="top-navigation">
+            <a href="index.html" class="nav-button">Back to Homepage</a>
+        </div>
+
+        <div class="header">
+            <img src="logo.png" alt="ISL Logo">
+            <h1>STATS</h1>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Goals</th>
+                    <th>Assists</th>
+                    <th>Matches Played</th>
+                    <th>G/A</th>
+                </tr>
+            </thead>
+            <tbody id="stats-table-body">
+                <!-- This part will be filled in automatically by JavaScript -->
+            </tbody>
+        </table>
+        <div id="loading-message">Loading stats...</div>
+    </div>
+
+    <script>
+        // This is the special link from Google Sheets that your website will read.
+        // It now includes a CORS proxy to bypass cross-origin restrictions when hosted.
+        const GOOGLE_SHEET_CSV_URL = 'https://corsproxy.io/?https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv';
+
+        // This function does the magic: it reads the sheet and puts data into the table.
+        async function loadPlayerStats() {
+            const tableBody = document.getElementById('stats-table-body');
+            const loadingMessage = document.getElementById('loading-message');
+
+            tableBody.innerHTML = ''; // Clear old data to prepare for new data
+            loadingMessage.style.display = 'block'; // Show "Loading..." message
+
+            try {
+                // Attempt to fetch the data from the specified Google Sheet URL
+                const response = await fetch(GOOGLE_SHEET_CSV_URL);
+
+                // Check if the network request was successful. If not, throw an error.
+                if (!response.ok) {
+                    throw new Error('Network response was not ok. Could not get stats from Google Sheet.');
+                }
+
+                // Read the response body as plain text (since it's a CSV file)
+                const csvText = await response.text();
+
+                // Split the entire CSV text into individual rows.
+                // .filter(row => row.trim() !== '') removes any empty lines.
+                const rows = csvText.split('\n').filter(row => row.trim() !== '');
+
+                // Check if there's actual data beyond just the header row
+                if (rows.length <= 1) {
+                    // If no data rows (or only header), display a message
+                    const newRow = tableBody.insertRow();
+                    const cell = newRow.insertCell();
+                    cell.colSpan = 5; // Make the message span across all columns
+                    cell.textContent = "No player stats found in the Google Sheet.";
+                    cell.style.textAlign = "center";
+                    return; // Stop the function here
+                }
+
+                // Loop through each data row (starting from index 1 to skip the header row)
+                for (let i = 1; i < rows.length; i++) {
+                    // Split each row into columns using the comma as a delimiter
+                    const columns = rows[i].split(',');
+
+                    // Ensure we have at least 5 columns (Player, Goals, Assists, Matches Played, G/A)
+                    if (columns.length >= 5) {
+                        const player = columns[0].trim(); // Get player name (remove extra spaces)
+                        const goals = parseInt(columns[1]) || 0; // Convert to number, default to 0 if invalid
+                        const assists = parseInt(columns[2]) || 0; // Convert to number, default to 0 if invalid
+                        const matchesPlayed = parseInt(columns[3]) || 0; // Convert to number, default to 0 if invalid
+                        const ga = parseInt(columns[4]) || (goals + assists); // Convert to number, or calculate if cell is empty/invalid
+
+                        // Create a new table row element (<tr>)
+                        const newRow = tableBody.insertRow();
+
+                        // Add table data cells (<td>) to the new row and fill them with content
+                        newRow.insertCell().textContent = player;
+                        newRow.insertCell().textContent = goals;
+                        newRow.insertCell().textContent = assists;
+                        newRow.insertCell().textContent = matchesPlayed;
+                        newRow.insertCell().textContent = ga;
+                    } else {
+                        console.warn(`Row ${i + 1} skipped due to insufficient columns: ${rows[i]}`);
+                    }
+                }
+            } catch (error) {
+                // Catch any errors during fetching or parsing and display a user-friendly message
+                console.error("Error loading stats:", error);
+                const newRow = tableBody.insertRow();
+                const cell = newRow.insertCell();
+                cell.colSpan = 5; // Span across all columns
+                cell.textContent = "Failed to load stats. Please ensure the Google Sheet URL is correct and the sheet is published to the web as CSV. (Possible CORS issue)"; // Added hint
+                cell.style.color = "red";
+                cell.style.textAlign = "center";
+            } finally {
+                loadingMessage.style.display = 'none'; // Always hide the loading message when done (success or failure)
+            }
+        }
+
+        // Add an event listener to run the loadPlayerStats function
+        // once the entire HTML document has been completely loaded and parsed.
+        document.addEventListener('DOMContentLoaded', loadPlayerStats);
+    </script>
+</body>
+</html>

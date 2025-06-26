@@ -1,0 +1,121 @@
+/* style.css */
+
+:root {
+    --background-color: #eeeae4;
+    --dark-blue: #003366;
+    --orange: #F7931E;
+    --green: #007D40;
+    --white: #FFFFFF;
+}
+
+body {
+    font-family: 'Montserrat', 'Open Sans', sans-serif; /* Fallback fonts */
+    background-color: var(--background-color);
+    color: var(--dark-blue);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+    flex-direction: column;
+}
+
+.container {
+    padding: 20px;
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+}
+
+/* Button Styling */
+.stat-button {
+    background-color: var(--dark-blue);
+    color: var(--white);
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px; /* Slightly rounded corners for a modern feel */
+    font-size: 1.8em; /* Larger for impact */
+    font-weight: 800; /* Extra bold */
+    text-decoration: none; /* Remove underline for links */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block; /* Allows padding and alignment */
+    letter-spacing: 1px; /* Slight spacing for the font */
+}
+
+.stat-button:hover {
+    background-color: var(--orange); /* Hover effect */
+}
+
+/* Stats Page Specific Styles */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.header img {
+    height: 80px; /* Adjust as needed */
+    margin-right: 20px;
+}
+
+.header h1 {
+    font-size: 3.5em;
+    font-weight: 800;
+    margin: 0;
+    color: var(--dark-blue);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: var(--white); /* White background for the table for readability */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    border-radius: 8px;
+    overflow: hidden; /* Ensures border-radius is applied to content */
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Light grey border */
+    font-size: 1.1em;
+}
+
+th {
+    background-color: var(--dark-blue);
+    color: var(--white);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Slightly different background for even rows */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Hover effect for rows */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .stat-button {
+        font-size: 1.5em;
+        padding: 12px 25px;
+    }
+
+    .header img {
+        height: 60px;
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 1em;
+    }
+}
