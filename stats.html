@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunchly Soccer Stats - Players</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         /* Specific styles for the stats page */
@@ -85,7 +85,7 @@
         </div>
 
         <div class="header">
-            <img src="logo.png" alt="ISL Logo">
+            <img src="ISL Logo (2).jpg" alt="ISL Logo">
             <h1>STATS</h1>
         </div>
 
@@ -108,8 +108,9 @@
 
     <script>
         // This is the special link from Google Sheets that your website will read.
-        // It now includes a CORS proxy to bypass cross-origin restrictions when hosted.
-        const GOOGLE_SHEET_CSV_URL = 'https://corsproxy.io/?https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv
+        // It now uses the 'api.allorigins.win' CORS proxy.
+        const GOOGLE_SHEET_CSV_URL = 'https://api.allorigins.win/raw?url=https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv';
+
         // This function does the magic: it reads the sheet and puts data into the table.
         async function loadPlayerStats() {
             const tableBody = document.getElementById('stats-table-body');
