@@ -109,8 +109,7 @@
     <script>
         // This is the special link from Google Sheets that your website will read.
         // It now includes a CORS proxy to bypass cross-origin restrictions when hosted.
-        const GOOGLE_SHEET_CSV_URL = 'https://corsproxy.io/?https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv';
-
+        const GOOGLE_SHEET_CSV_URL = 'https://corsproxy.io/?https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv
         // This function does the magic: it reads the sheet and puts data into the table.
         async function loadPlayerStats() {
             const tableBody = document.getElementById('stats-table-body');
