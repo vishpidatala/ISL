@@ -3,8 +3,8 @@
 
 body {
     font-family: 'Rajdhani', sans-serif;
-    background-color: #f5f5f0; /* Soft off-white background */
-    color: #333;
+    background-color: #f9f8f6; /* Soft off-white background */
+    color: #222;
     padding: 20px;
     box-sizing: border-box;
     min-height: 100vh;
@@ -23,7 +23,7 @@ body::before {
     height: 400px;
     background: url('logo.png') no-repeat center center;
     background-size: contain;
-    opacity: 0.05;
+    opacity: 0.04;
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 0;
@@ -100,31 +100,48 @@ table {
     border-radius: 12px;
     overflow: hidden;
     background-color: white;
-    color: #333;
+    color: #222;
     box-shadow: 0 6px 12px rgba(0,0,0,0.1);
 }
 
-th, td {
+/* Table header styling - Indian flag colors alternating */
+thead th {
     padding: 14px 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    border-bottom: 1px solid #ddd;
     text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+thead th:nth-child(odd) {
+    background-color: #138808; /* Green */
+    color: black;
+}
+
+thead th:nth-child(even) {
+    background-color: #FF9933; /* Saffron */
+    color: white;
+}
+
+/* Table body cells */
+tbody td {
+    padding: 14px 18px;
     font-weight: 600;
     white-space: nowrap;
     border-bottom: 1px solid #eee;
     transition: background-color 0.25s ease;
 }
 
-th {
-    background-color: #FF9933; /* Saffron */
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-tr:nth-child(even) {
+/* Alternate row colors */
+tbody tr:nth-child(even) {
     background-color: #fafafa;
 }
 
-tr:hover {
+/* Hover highlight */
+tbody tr:hover {
     background-color: #FFF2CC; /* very light saffron */
     cursor: default;
 }
@@ -165,7 +182,7 @@ tr:hover {
         letter-spacing: 0.05em;
     }
 
-    th, td {
+    thead th, tbody td {
         padding: 10px 12px;
         font-size: 0.95em;
     }
