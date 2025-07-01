@@ -35,30 +35,24 @@ body::before {
     z-index: 1;
 }
 
-/* Navigation button */
 .nav-button {
-    background-color: #138808; /* Indian green */
+    display: inline-block;
+    background-color: #138808;  /* green */
     color: white;
     padding: 12px 24px;
-    border: none;
     border-radius: 8px;
-    font-size: 1.1em;
     font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    min-width: 140px;
     text-align: center;
-    transition: background-color 0.3s ease, transform 0.15s ease;
+    text-decoration: none;  /* remove underline */
+    cursor: pointer;
     box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease, transform 0.15s ease;
 }
 
 .nav-button:hover {
-    background-color: #FF9933; /* Saffron */
+    background-color: #FF9933;  /* saffron */
     transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
-
 /* Header */
 .header {
     display: flex;
