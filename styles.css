@@ -43,7 +43,7 @@ body::before {
     border-radius: 8px;
     font-weight: 700;
     text-align: center;
-    text-decoration: none;  /* remove underline */
+    text-decoration: none;
     cursor: pointer;
     box-shadow: 0 3px 6px rgba(0,0,0,0.15);
     transition: background-color 0.3s ease, transform 0.15s ease;
