@@ -172,12 +172,12 @@
     </div>
 
     <script>
-        // **** IMPORTANT: YOU MUST REPLACE THE TEXT BELOW WITH YOUR GOOGLE APPS SCRIPT WEB APP URL ****
-        // This URL is obtained after deploying your Google Apps Script as a web app with 'Anyone' access.
-        // It will look something like: 'https://script.google.com/macros/s/AKfycb.../exec'
-        const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE'; 
+        // This is the special link from Google Sheets that your website will read.
+        // It uses the 'api.codetabs.com' CORS proxy.
+        // Make sure your Google Sheet is published to the web as CSV.
+        const GOOGLE_SHEET_CSV_URL = 'https://api.codetabs.com/v1/proxy?query=https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv';
 
-        // This function fetches data from the Google Apps Script Web App, sorts it by G/A, and populates the table.
+        // This function fetches data from Google Sheet, sorts it by G/A, and populates the table.
         async function loadPlayerStats() {
             const tableBody = document.getElementById('stats-table-body');
             const loadingMessage = document.getElementById('loading-message');
@@ -186,21 +186,16 @@
             loadingMessage.style.display = 'block'; // Show "Loading..." message
 
             try {
-                // Check if the placeholder URL is still present
-                if (GOOGLE_APPS_SCRIPT_WEB_APP_URL.includes('https://script.google.com/macros/s/AKfycbzR7ZNyw3VShNr8MOqQTeu8di6imssw-STHQVTXYQomQTmy6Eu293NGb6QGf53aRmJbuQ/exec')) {
-                    throw new Error("Google Apps Script Web App URL is not set. Please replace 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE' with your actual deployed Apps Script URL.");
-                }
-
-                const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+                const response = await fetch(GOOGLE_SHEET_CSV_URL);
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}. Could not get stats from Web App.`);
+                    throw new Error('Network response was not ok. Could not get stats from Google Sheet.');
                 }
 
-                // Parse the response as JSON (since Apps Script now serves JSON)
-                const players = await response.json(); 
+                const csvText = await response.text();
+                const rows = csvText.split('\n').filter(row => row.trim() !== '');
 
-                if (players.length === 0) {
+                if (rows.length <= 1) {
                     const newRow = tableBody.insertRow();
                     const cell = newRow.insertCell();
                     cell.colSpan = 5;
@@ -209,18 +204,40 @@
                     return;
                 }
 
+                // Parse data into an array of player objects for easier sorting
+                const players = [];
+                for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+                    const columns = rows[i].split(',');
+                    if (columns.length >= 5) {
+                        const player = columns[0].trim();
+                        const goals = parseInt(columns[1]) || 0;
+                        const assists = parseInt(columns[2]) || 0;
+                        const matchesPlayed = parseInt(columns[3]) || 0;
+                        const ga = parseInt(columns[4]) || (goals + assists); // Use G/A from sheet, or calculate
+
+                        players.push({
+                            player: player,
+                            goals: goals,
+                            assists: assists,
+                            matchesPlayed: matchesPlayed,
+                            ga: ga
+                        });
+                    } else {
+                        console.warn(`Row ${i + 1} skipped due to insufficient columns: ${rows[i]}`);
+                    }
+                }
+
                 // Sort the players array by G/A in descending order (highest G/A first)
-                // Note: The property names (e.g., 'G/A') must match the headers in your Google Sheet exactly.
-                players.sort((a, b) => b['G/A'] - a['G/A']); 
+                players.sort((a, b) => b.ga - a.ga);
 
                 // Now, populate the table with the sorted data
                 players.forEach(playerData => {
-                    const newRow = tableBody.insertRow(); // Corrected from newRow = tableBody.insertCell()
-                    newRow.insertCell().textContent = playerData['Player'];
-                    newRow.insertCell().textContent = playerData['Goals'];
-                    newRow.insertCell().textContent = playerData['Assists'];
-                    newRow.insertCell().textContent = playerData['Matches Played'];
-                    newRow.insertCell().textContent = playerData['G/A'];
+                    const newRow = tableBody.insertRow();
+                    newRow.insertCell().textContent = playerData.player;
+                    newRow.insertCell().textContent = playerData.goals;
+                    newRow.insertCell().textContent = playerData.assists;
+                    newRow.insertCell().textContent = playerData.matchesPlayed;
+                    newRow.insertCell().textContent = playerData.ga;
                 });
 
             } catch (error) {
@@ -228,7 +245,7 @@
                 const newRow = tableBody.insertRow();
                 const cell = newRow.insertCell();
                 cell.colSpan = 5;
-                cell.textContent = `Failed to load stats: ${error.message}. Please ensure the Google Apps Script Web App URL is correct and deployed as 'Anyone' access.`;
+                cell.textContent = "Failed to load stats. Please ensure the Google Sheet URL is correct and the sheet is published to the web as CSV. (Possible CORS issue)";
                 cell.style.color = "red";
                 cell.style.textAlign = "center";
             } finally {
