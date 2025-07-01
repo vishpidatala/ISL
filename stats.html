@@ -173,9 +173,9 @@
 
     <script>
         // This is the special link from Google Sheets that your website will read.
-        // It uses the 'api.codetabs.com' CORS proxy.
+        // It uses 'https://cors.bridged.cc/?url=' as the CORS proxy.
         // Make sure your Google Sheet is published to the web as CSV.
-        const GOOGLE_SHEET_CSV_URL = 'https://api.codetabs.com/v1/proxy?query=https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv';
+        const GOOGLE_SHEET_CSV_URL = 'https://cors.bridged.cc/?url=https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?gid=0&single=true&output=csv';
 
         // This function fetches data from Google Sheet, sorts it by G/A, and populates the table.
         async function loadPlayerStats() {
@@ -206,38 +206,38 @@
 
                 // Parse data into an array of player objects for easier sorting
                 const players = [];
+                // Assuming the first row is headers: Player,Goals,Assists,Matches Played,G/A
+                const headers = rows[0].split(',').map(header => header.trim()); // Get and trim headers
+
                 for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
                     const columns = rows[i].split(',');
-                    if (columns.length >= 5) {
-                        const player = columns[0].trim();
-                        const goals = parseInt(columns[1]) || 0;
-                        const assists = parseInt(columns[2]) || 0;
-                        const matchesPlayed = parseInt(columns[3]) || 0;
-                        const ga = parseInt(columns[4]) || (goals + assists); // Use G/A from sheet, or calculate
-
-                        players.push({
-                            player: player,
-                            goals: goals,
-                            assists: assists,
-                            matchesPlayed: matchesPlayed,
-                            ga: ga
+                    if (columns.length >= headers.length) { // Ensure enough columns for all headers
+                        const player = {};
+                        headers.forEach((header, index) => {
+                            let value = columns[index].trim();
+                            // Convert numeric fields to numbers
+                            if (header === 'Goals' || header === 'Assists' || header === 'Matches Played' || header === 'G/A') {
+                                value = parseInt(value) || 0; // Convert to number, default to 0 if invalid
+                            }
+                            player[header] = value;
                         });
+                        players.push(player);
                     } else {
                         console.warn(`Row ${i + 1} skipped due to insufficient columns: ${rows[i]}`);
                     }
                 }
 
                 // Sort the players array by G/A in descending order (highest G/A first)
-                players.sort((a, b) => b.ga - a.ga);
+                players.sort((a, b) => b['G/A'] - a['G/A']);
 
                 // Now, populate the table with the sorted data
                 players.forEach(playerData => {
                     const newRow = tableBody.insertRow();
-                    newRow.insertCell().textContent = playerData.player;
-                    newRow.insertCell().textContent = playerData.goals;
-                    newRow.insertCell().textContent = playerData.assists;
-                    newRow.insertCell().textContent = playerData.matchesPlayed;
-                    newRow.insertCell().textContent = playerData.ga;
+                    newRow.insertCell().textContent = playerData['Player'];
+                    newRow.insertCell().textContent = playerData['Goals'];
+                    newRow.insertCell().textContent = playerData['Assists'];
+                    newRow.insertCell().textContent = playerData['Matches Played'];
+                    newRow.insertCell().textContent = playerData['G/A'];
                 });
 
             } catch (error) {
@@ -245,7 +245,7 @@
                 const newRow = tableBody.insertRow();
                 const cell = newRow.insertCell();
                 cell.colSpan = 5;
-                cell.textContent = "Failed to load stats. Please ensure the Google Sheet URL is correct and the sheet is published to the web as CSV. (Possible CORS issue)";
+                cell.textContent = "Failed to load stats. Please ensure the Google Sheet URL is correct and the sheet is published to the web as CSV. (Possible CORS issue with the proxy)";
                 cell.style.color = "red";
                 cell.style.textAlign = "center";
             } finally {
