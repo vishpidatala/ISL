@@ -1,121 +1,162 @@
-/* style.css */
-
-:root {
-    --background-color: #eeeae4;
-    --dark-blue: #003366;
-    --orange: #F7931E;
-    --green: #007D40;
-    --white: #FFFFFF;
-}
+/* Import Rajdhani font */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap');
 
 body {
-    font-family: 'Montserrat', 'Open Sans', sans-serif; /* Fallback fonts */
-    background-color: var(--background-color);
-    color: var(--dark-blue);
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Full viewport height */
-    flex-direction: column;
-}
-
-.container {
+    font-family: 'Rajdhani', sans-serif;
+    background: linear-gradient(135deg, #FF9933 0%, #138808 100%); /* saffron to green gradient */
+    color: white;
     padding: 20px;
-    text-align: center;
-    max-width: 900px;
-    width: 100%;
+    box-sizing: border-box;
+    min-height: 100vh;
+    margin: 0;
 }
 
-/* Button Styling */
-.stat-button {
-    background-color: var(--dark-blue);
-    color: var(--white);
-    padding: 15px 30px;
+/* Navigation button */
+.nav-button {
+    background-color: #138808; /* Indian green */
+    color: white;
+    padding: 12px 24px;
     border: none;
-    border-radius: 8px; /* Slightly rounded corners for a modern feel */
-    font-size: 1.8em; /* Larger for impact */
-    font-weight: 800; /* Extra bold */
-    text-decoration: none; /* Remove underline for links */
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: inline-block; /* Allows padding and alignment */
-    letter-spacing: 1px; /* Slight spacing for the font */
+    text-decoration: none;
+    display: inline-block;
+    min-width: 140px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+.nav-button:hover {
+    background-color: #FF9933; /* saffron */
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
 }
 
-.stat-button:hover {
-    background-color: var(--orange); /* Hover effect */
-}
-
-/* Stats Page Specific Styles */
+/* Header section */
 .header {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 30px;
+    flex-wrap: wrap;
+    text-align: center;
 }
 
 .header img {
-    height: 80px; /* Adjust as needed */
-    margin-right: 20px;
+    height: 70px;
+    margin-right: 15px;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.4));
 }
 
 .header h1 {
-    font-size: 3.5em;
-    font-weight: 800;
-    margin: 0;
-    color: var(--dark-blue);
+    font-size: 3em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    color: #fff;
 }
 
+/* Table wrapper for responsiveness */
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+/* Table styles */
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: var(--white); /* White background for the table for readability */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-    border-radius: 8px;
-    overflow: hidden; /* Ensures border-radius is applied to content */
+    min-width: 600px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 }
 
 th, td {
-    padding: 15px;
+    padding: 16px 20px;
     text-align: left;
-    border-bottom: 1px solid #ddd; /* Light grey border */
-    font-size: 1.1em;
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
 }
 
 th {
-    background-color: var(--dark-blue);
-    color: var(--white);
-    font-weight: 700;
+    background: linear-gradient(90deg, #FF9933, #138808);
+    color: white;
     text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* Slightly different background for even rows */
+    background-color: #f7f7f7;
 }
 
 tr:hover {
-    background-color: #f1f1f1; /* Hover effect for rows */
+    background-color: #FF9933;
+    color: white;
+    cursor: default;
 }
 
-/* Responsive adjustments */
+/* Credit text */
+.credit-text {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    white-space: nowrap;
+}
+
+/* Loading message */
+#loading-message {
+    color: white;
+    font-weight: 700;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+/* Responsive tweaks */
 @media (max-width: 768px) {
-    .stat-button {
-        font-size: 1.5em;
-        padding: 12px 25px;
+    body {
+        padding: 15px;
     }
 
     .header img {
-        height: 60px;
+        height: 50px;
+        margin-right: 10px;
     }
 
     .header h1 {
-        font-size: 2.5em;
+        font-size: 2em;
+        letter-spacing: 0.05em;
     }
 
     th, td {
-        padding: 10px;
+        padding: 12px 10px;
+        font-size: 0.9em;
+    }
+
+    .nav-button {
         font-size: 1em;
+        padding: 10px 18px;
+        min-width: 120px;
+    }
+
+    .credit-text {
+        font-size: 0.75em;
+        top: 5px;
+        right: 5px;
+        position: relative;
+        text-align: center;
+        margin-bottom: 10px;
     }
 }
