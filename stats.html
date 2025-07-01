@@ -215,7 +215,7 @@
 
                 // Now, populate the table with the sorted data
                 players.forEach(playerData => {
-                    const newRow = tableBody.insertCell();
+                    const newRow = tableBody.insertRow(); // Corrected from newRow = tableBody.insertCell()
                     newRow.insertCell().textContent = playerData['Player'];
                     newRow.insertCell().textContent = playerData['Goals'];
                     newRow.insertCell().textContent = playerData['Assists'];
