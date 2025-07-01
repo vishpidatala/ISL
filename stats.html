@@ -6,17 +6,20 @@
     <title>Lunchly Soccer Stats - Players</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Favicon link -->
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         /* Specific styles for the stats page */
+        body {
+            padding: 20px; /* Add overall body padding for small screens */
+            box-sizing: border-box;
+        }
         .top-navigation {
             width: 100%;
             text-align: left; /* Align button to the left */
             margin-bottom: 20px; /* Space between button and header */
-        }
-
-        /* Adjustments for the main content to not overlap the button */
-        .container {
-            padding-top: 20px; /* Add some padding at the top if needed, or rely on margin-top for top-navigation */
+            padding-top: 10px; /* Ensure space from the top of the page */
+            box-sizing: border-box;
         }
 
         /* Small button styling for navigation */
@@ -31,7 +34,9 @@
             text-decoration: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            display: inline-block;
+            display: inline-block; /* Ensures padding and width are respected */
+            min-width: 120px; /* Ensure a minimum touch target size */
+            text-align: center; /* Center text within the button */
         }
 
         .nav-button:hover {
@@ -40,15 +45,53 @@
 
         /* Ensure header and table remain centered below the nav button */
         .header {
-            margin-top: 0; /* Reset margin-top from previous version if it conflicts */
+            display: flex; /* Already flex, good for aligning logo and title */
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            text-align: center; /* Center text if wrapped */
         }
 
-        /* Basic styling for loading indicator */
-        #loading-message {
-            text-align: center;
-            font-size: 1.2em;
-            color: var(--dark-blue);
+        /* Responsive table wrapper */
+        .table-responsive {
+            overflow-x: auto; /* Allows horizontal scrolling for the table on small screens */
+            width: 100%; /* Take full width */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        table {
+            min-width: 600px; /* Ensure table has a minimum width, so it scrolls if needed */
+            width: 100%; /* Take full width of its container */
+            border-collapse: collapse;
             margin-top: 20px;
+            background-color: var(--white);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.1em;
+            white-space: nowrap; /* Prevent text from wrapping in table cells */
+        }
+
+        th {
+            background-color: var(--dark-blue);
+            color: var(--white);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
         }
 
         /* Styling for the credit text */
@@ -62,6 +105,7 @@
             color: var(--dark-blue); /* Use the dark blue for consistency */
             padding: 10px; /* Some padding around the text */
             box-sizing: border-box; /* Include padding in width calculation */
+            z-index: 10; /* Ensure it's above other content */
         }
 
         @media (max-width: 768px) {
@@ -70,6 +114,23 @@
                 top: 5px;
                 right: 5px;
                 text-align: center; /* Center on small screens to prevent overflow */
+                position: relative; /* Change to relative on small screens to flow with content */
+                margin-bottom: 10px; /* Add space if it's relative */
+            }
+            .header img {
+                height: 50px; /* Slightly smaller logo on mobile */
+                margin-right: 10px;
+            }
+            .header h1 {
+                font-size: 2em; /* Adjust title size */
+            }
+            th, td {
+                padding: 10px 8px; /* Reduce padding in table cells */
+                font-size: 0.9em; /* Adjust table font size */
+            }
+            .nav-button {
+                font-size: 0.9em; /* Adjust nav button size */
+                padding: 8px 15px;
             }
         }
     </style>
@@ -89,27 +150,29 @@
             <h1>STATS</h1>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>Goals</th>
-                    <th>Assists</th>
-                    <th>Matches Played</th>
-                    <th>G/A</th>
-                </tr>
-            </thead>
-            <tbody id="stats-table-body">
-                <!-- This part will be filled in automatically by JavaScript -->
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Goals</th>
+                        <th>Assists</th>
+                        <th>Matches Played</th>
+                        <th>G/A</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-table-body">
+                    <!-- This part will be filled in automatically by JavaScript -->
+                </tbody>
+            </table>
+        </div>
         <div id="loading-message">Loading stats...</div>
     </div>
 
     <script>
         // This is the special link from Google Sheets that your website will read.
-        // It uses the 'api.allorigins.win' CORS proxy.
-        const GOOGLE_SHEET_CSV_URL = 'https://api.allorigins.win/raw?url=https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv';
+        // It now uses the 'api.codetabs.com' CORS proxy.
+        const GOOGLE_SHEET_CSV_URL = 'https://api.codetabs.com/v1/proxy?query=https://docs.google.com/spreadsheets/d/e/2PACX-1vR7ykbOCg0it6tk4T_2oFeuzG2_WF4rAiMJjug0hzQox2hv5PNakkkyF5Lp91EFVdqU3v4uKEhLpXwJ/pub?output=csv';
 
         // This function fetches data from Google Sheet, sorts it by G/A, and populates the table.
         async function loadPlayerStats() {
