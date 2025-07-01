@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <!-- Favicon link -->
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="logo/png" href="logo.png">
     <style>
         /* Specific styles for the stats page */
         body {
@@ -96,16 +96,18 @@
 
         /* Styling for the credit text */
         .credit-text {
-            width: 100%; /* Take full width */
+            /* Removed width: 100% to prevent it from spanning the entire page width */
             text-align: right; /* Align text to the right */
             position: absolute; /* Position relative to the viewport */
             top: 10px; /* 10px from the top */
             right: 10px; /* 10px from the right */
+            left: auto; /* Ensure it doesn't stretch from left */
             font-size: 0.9em; /* Smaller font size */
             color: var(--dark-blue); /* Use the dark blue for consistency */
             padding: 10px; /* Some padding around the text */
             box-sizing: border-box; /* Include padding in width calculation */
             z-index: 10; /* Ensure it's above other content */
+            white-space: nowrap; /* Prevent text wrapping if it's too long for its small space */
         }
 
         @media (max-width: 768px) {
