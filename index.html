@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Lunchly Soccer Stats</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Favicon link -->
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         /* Specific styles for the landing page */
         body {
             /* Ensures content is centered on the landing page */
             justify-content: center;
             align-items: center;
+            min-height: 100vh; /* Ensure full viewport height for centering */
+            padding: 20px; /* Add overall body padding for small screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
         }
         .welcome-content {
             display: flex;
@@ -20,8 +25,10 @@
             justify-content: center; /* Center items vertically if enough space */
             text-align: center;
             max-width: 600px; /* Limit content width */
+            width: 100%; /* Ensure it takes full width on small screens */
             margin: auto; /* Center the content block itself */
             padding: 20px;
+            box-sizing: border-box;
         }
 
         .welcome-content img {
@@ -47,6 +54,10 @@
             .welcome-content img {
                 max-width: 150px;
             }
+            .stat-button {
+                font-size: 1.4em; /* Adjust button size for mobile */
+                padding: 12px 20px;
+            }
         }
 
         /* Styling for the credit text */
@@ -60,6 +71,7 @@
             color: var(--dark-blue); /* Use the dark blue for consistency */
             padding: 10px; /* Some padding around the text */
             box-sizing: border-box; /* Include padding in width calculation */
+            z-index: 10; /* Ensure it's above other content */
         }
 
         @media (max-width: 768px) {
@@ -68,6 +80,12 @@
                 top: 5px;
                 right: 5px;
                 text-align: center; /* Center on small screens to prevent overflow */
+                position: relative; /* Change to relative on small screens to flow with content */
+                margin-bottom: 10px; /* Add space if it's relative */
+            }
+            body {
+                flex-direction: column; /* Stack items vertically on small screens */
+                justify-content: flex-start; /* Align to top when stacked */
             }
         }
     </style>
@@ -78,7 +96,7 @@
     </div>
     <div class="container welcome-content">
         <!-- Logo for the welcome page -->
-        <img src="logo.png" alt="ISL Logo">
+        <img src="ISL Logo (2).jpg" alt="ISL Logo">
 
         <!-- Welcome message -->
         <h1 class="welcome-message">Welcome to the ISL</h1>
