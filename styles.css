@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap');
 
 :root {
-    --green: #138808;
-    --saffron: #FF9933;
-    --light-bg: #f9f8f6;
+    --green: #138808;        /* Indian flag green */
+    --saffron: #FF9933;      /* Indian flag saffron */
+    --light-bg: #f9f8f6;     /* clean light background */
     --white: #ffffff;
     --text-dark: #222;
     --text-light: #fff;
@@ -22,7 +22,7 @@ body {
     font-size: 1.1em;
 }
 
-/* Faint logo watermark */
+/* Watermark logo */
 body::before {
     content: "";
     position: fixed;
@@ -32,7 +32,7 @@ body::before {
     height: 400px;
     background: url('logo.png') no-repeat center center;
     background-size: contain;
-    opacity: 0.03;
+    opacity: 0.05;              /* increase slightly for visibility */
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 0;
@@ -66,11 +66,11 @@ body::before {
     letter-spacing: 0.05em;
 }
 
-/* Green navigation button */
+/* ✅ Green navigation button */
 .nav-button {
     display: inline-block;
-    background-color: var(--green);
-    color: var(--text-light);
+    background-color: var(--green);       /* force green */
+    color: var(--text-light);             /* white text */
     padding: 12px 24px;
     border: none;
     border-radius: 8px;
@@ -85,7 +85,7 @@ body::before {
 }
 
 .nav-button:hover {
-    background-color: var(--saffron);
+    background-color: var(--saffron);     /* saffron on hover */
     transform: scale(1.05);
 }
 
@@ -114,7 +114,6 @@ thead th {
     font-size: 1em;
 }
 
-/* Indian flag header colors */
 thead th:nth-child(odd) {
     background-color: var(--green);
     color: var(--text-light);
@@ -133,4 +132,55 @@ tbody td {
     transition: background-color 0.2s ease;
 }
 
-tbo
+tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+tbody tr:hover {
+    background-color: #fff3e0;
+}
+
+.credit-text {
+    text-align: center;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 40px;
+    font-weight: 600;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.95em;
+    color: #555;
+    font-weight: 600;
+}
+
+#loading-message {
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.1em;
+    color: var(--green);
+    margin-top: 20px;
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+    .header img {
+        height: 50px;
+    }
+
+    .header h1 {
+        font-size: 2em;
+    }
+
+    .nav-button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+
+    thead th, tbody td {
+        padding: 12px 14px;
+        font-size: 0.95em;
+    }
+}
