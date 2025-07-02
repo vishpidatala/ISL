@@ -1,5 +1,5 @@
-/* Import sporty, bold font */
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Open+Sans:wght@600&display=swap');
+/* Import sporty font */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap');
 
 :root {
     --green: #138808;
@@ -19,17 +19,17 @@ body {
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-    font-size: 1.2em; /* Larger readable text */
+    font-size: 1.1em;
 }
 
-/* Subtle background watermark */
+/* Faint logo watermark */
 body::before {
     content: "";
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     background: url('logo.png') no-repeat center center;
     background-size: contain;
     opacity: 0.03;
@@ -38,15 +38,13 @@ body::before {
     z-index: 0;
 }
 
-/* Container to stay above watermark */
 .container {
     position: relative;
     z-index: 1;
-    max-width: 1000px;
+    max-width: 950px;
     margin: auto;
 }
 
-/* Header */
 .header {
     display: flex;
     align-items: center;
@@ -61,28 +59,28 @@ body::before {
 }
 
 .header h1 {
-    font-size: 3em;
+    font-size: 2.5em;
     font-weight: 700;
     color: var(--green);
     margin: 0;
     letter-spacing: 0.05em;
 }
 
-/* Navigation button */
+/* Green navigation button */
 .nav-button {
     display: inline-block;
     background-color: var(--green);
     color: var(--text-light);
-    padding: 14px 28px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     font-weight: 700;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin: 10px 0;
 }
 
@@ -100,23 +98,23 @@ body::before {
 table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
     background-color: var(--white);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 thead th {
-    padding: 16px 20px;
+    padding: 14px 18px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     white-space: nowrap;
     text-align: left;
-    font-size: 1.1em;
+    font-size: 1em;
 }
 
-/* Indian flag colors on table header */
+/* Indian flag header colors */
 thead th:nth-child(odd) {
     background-color: var(--green);
     color: var(--text-light);
@@ -128,79 +126,11 @@ thead th:nth-child(even) {
 }
 
 tbody td {
-    padding: 14px 20px;
+    padding: 14px 18px;
     border-bottom: 1px solid #eee;
     font-weight: 600;
     white-space: nowrap;
     transition: background-color 0.2s ease;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f4f4f4;
-}
-
-tbody tr:hover {
-    background-color: #fff3e0; /* soft saffron hover */
-}
-
-/* Cards (for fixtures, teams, etc) */
-.card {
-    background: var(--white);
-    border-radius: 12px;
-    padding: 20px;
-    margin: 15px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-}
-
-/* Credit text */
-.credit-text {
-    text-align: center;
-    font-size: 0.9em;
-    color: #555;
-    margin-top: 40px;
-    font-weight: 600;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 15px;
-    font-size: 1em;
-    color: #555;
-}
-
-/* Loading message */
-#loading-message {
-    font-weight: 700;
-    text-align: center;
-    font-size: 1.2em;
-    color: var(--green);
-    margin-top: 20px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .header img {
-        height: 50px;
-    }
-
-    .header h1 {
-        font-size: 2.2em;
-    }
-
-    .nav-button {
-        font-size: 1.1em;
-        padding: 12px 20px;
-    }
-
-    thead th, tbody td {
-        padding: 12px 16px;
-        font-size: 1em;
-    }
-}
+tbo
