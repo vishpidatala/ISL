@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ISL Player Stats</title>
     <link rel="stylesheet" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div class="credit-text">Made by Vishruth Pidatala</div>
     <div class="container">
-        <a href="index.html" class="nav-button">Back to Homepage</a>
+        <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
 
         <div class="header">
             <img src="logo.png" alt="ISL Logo" />
@@ -28,75 +26,24 @@
                         <th>Average Match Rating</th>
                     </tr>
                 </thead>
-                <tbody id="stats-table-body"></tbody>
+                <tbody>
+                    <tr>
+                        <td><a href="player_rohit.html">Rohit Sharma</a></td>
+                        <td>12</td>
+                        <td>15</td>
+                        <td>7.8</td>
+                    </tr>
+                    <tr>
+                        <td>Another Player</td>
+                        <td>10</td>
+                        <td>12</td>
+                        <td>7.2</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
-        <div id="loading-message">Loading stats...</div>
+
+        <div class="credit-text">Indian Soccer League © 2025</div>
     </div>
-
-    <!-- Modal for player profiles -->
-    <div class="modal" id="player-modal">
-        <div class="modal-content" id="modal-content">
-            <h2 id="modal-player-name"></h2>
-            <p id="modal-matches"></p>
-            <p id="modal-ga"></p>
-            <p id="modal-rating"></p>
-            <button class="close-modal" onclick="closeModal()">Close</button>
-        </div>
-    </div>
-
-    <script>
-        const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx61E5ibfa7nzExFcfwQ4mtBEjd9u9aZva_9HvauCGlYw1XbC9c7o0gU_YvOJUg9vU_/exec';
-
-        async function loadPlayerStats() {
-            const tableBody = document.getElementById('stats-table-body');
-            const loadingMessage = document.getElementById('loading-message');
-            tableBody.innerHTML = '';
-            loadingMessage.style.display = 'block';
-
-            try {
-                const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
-                if (!response.ok) throw new Error('HTTP error ' + response.status);
-                const players = await response.json();
-                players.sort((a, b) => b['G/A'] - a['G/A']);
-                players.forEach(player => {
-                    const newRow = tableBody.insertRow();
-                    const nameCell = newRow.insertCell();
-                    nameCell.textContent = player['Player'];
-                    const matchesCell = newRow.insertCell();
-                    matchesCell.textContent = player['Matches Played'];
-                    const gaCell = newRow.insertCell();
-                    gaCell.textContent = player['G/A'];
-                    const ratingCell = newRow.insertCell();
-                    ratingCell.textContent = player['Average Match Rating'];
-
-                    newRow.addEventListener('click', () => openModal(player));
-                });
-            } catch (error) {
-                const newRow = tableBody.insertRow();
-                const cell = newRow.insertCell();
-                cell.colSpan = 4;
-                cell.textContent = 'Error loading stats: ' + error.message;
-                cell.style.color = 'red';
-                cell.style.textAlign = 'center';
-            } finally {
-                loadingMessage.style.display = 'none';
-            }
-        }
-
-        function openModal(player) {
-            document.getElementById('modal-player-name').textContent = player['Player'];
-            document.getElementById('modal-matches').textContent = 'Matches Played: ' + player['Matches Played'];
-            document.getElementById('modal-ga').textContent = 'G/A: ' + player['G/A'];
-            document.getElementById('modal-rating').textContent = 'Average Match Rating: ' + player['Average Match Rating'];
-            document.getElementById('player-modal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('player-modal').style.display = 'none';
-        }
-
-        document.addEventListener('DOMContentLoaded', loadPlayerStats);
-    </script>
 </body>
 </html>
