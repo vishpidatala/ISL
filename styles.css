@@ -3,12 +3,13 @@
 
 /* Root colors */
 :root {
-    --saffron-orange: rgba(255, 153, 51, 0.85); /* Indian Saffron */
-    --green: rgba(46, 125, 50, 0.15);           /* Light transparent green for rows */
-    --green-solid: #2E7D32;                     /* Solid green for buttons */
-    --white: rgba(255, 255, 255, 0.85);         /* Soft transparent white */
-    --text-color: #333333;                      /* Soft dark text */
-    --hover-gray: rgba(240, 240, 240, 0.8);     /* Hover row color */
+    --saffron-orange: rgba(255, 153, 51, 0.85);
+    --green: rgba(46, 125, 50, 0.15);
+    --green-solid: #2E7D32;
+    --white: rgba(255, 255, 255, 0.85);
+    --light-gray: rgba(250, 250, 250, 0.9);
+    --text-color: #333333;
+    --hover-gray: rgba(240, 240, 240, 0.8);
 }
 
 /* Base styling */
@@ -24,7 +25,7 @@ body {
     min-height: 100vh;
 }
 
-/* Background logo (transparent) */
+/* Transparent background logo */
 body::before {
     content: "";
     position: fixed;
@@ -34,7 +35,7 @@ body::before {
     height: 400px;
     background: url('logo.png') no-repeat center center;
     background-size: contain;
-    opacity: 0.06; /* subtle transparency */
+    opacity: 0.05;
     transform: translate(-50%, -50%);
     z-index: 0;
     pointer-events: none;
@@ -101,27 +102,30 @@ table {
     min-width: 600px;
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: var(--white);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 th, td {
-    padding: 16px 20px;
+    padding: 14px 18px;
     text-align: left;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     white-space: nowrap;
     font-weight: 500;
     font-size: 1rem;
 }
 
-th {
-    background-color: var(--saffron-orange);
+/* Alternating header colors */
+th:nth-child(odd) {
+    background-color: rgba(255, 153, 51, 0.8); /* saffron orange */
     color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+}
+
+th:nth-child(even) {
+    background-color: rgba(46, 125, 50, 0.8); /* green */
+    color: white;
 }
 
 tr:nth-child(even) {
@@ -129,24 +133,21 @@ tr:nth-child(even) {
 }
 
 tr:nth-child(odd) {
-    background-color: transparent;
+    background-color: var(--light-gray);
 }
 
 tr:hover {
     background-color: var(--hover-gray);
 }
 
-/* Credit text */
+/* Trademark credit text */
 .credit-text {
     position: fixed;
     top: 12px;
     right: 12px;
     font-size: 0.95rem;
     font-weight: 500;
-    color: white;
-    background-color: var(--saffron-orange);
-    padding: 6px 14px;
-    border-radius: 6px;
+    color: black;
     z-index: 1000;
     user-select: none;
     pointer-events: none;
