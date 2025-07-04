@@ -63,10 +63,11 @@
                 players.forEach(player => {
                     const newRow = tableBody.insertRow();
                     newRow.insertCell().textContent = player['Player'];
-                    newRow.insertCell().textContent = player['Goals'];
-                    newRow.insertCell().textContent = player['Assists'];
                     newRow.insertCell().textContent = player['Matches Played'];
                     newRow.insertCell().textContent = player['G/A'];
+                    newRow.insertCell().textContent = player['Average Match Rating'];
+                });
+
                 });
             } catch (error) {
                 const newRow = tableBody.insertRow();
