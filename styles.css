@@ -3,29 +3,28 @@
 
 /* Root colors */
 :root {
-    --dark-blue: #054187; /* Indian Navy Blue */
-    --saffron-orange: rgba(255, 153, 51, 0.8); /* Indian Saffron with transparency */
-    --green: #2E7D32; /* Green for table rows */
-    --white: #FFFFFF;
-    --light-gray: rgba(255, 255, 255, 0.6); /* translucent white */
-    --hover-gray: #f1f1f1;
+    --saffron-orange: rgba(255, 153, 51, 0.85); /* Indian Saffron */
+    --green: rgba(46, 125, 50, 0.15);           /* Light transparent green for rows */
+    --green-solid: #2E7D32;                     /* Solid green for buttons */
+    --white: rgba(255, 255, 255, 0.85);         /* Soft transparent white */
+    --text-color: #333333;                      /* Soft dark text */
+    --hover-gray: rgba(240, 240, 240, 0.8);     /* Hover row color */
 }
 
-/* Body and container */
+/* Base styling */
 body {
     font-family: 'Montserrat', sans-serif;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: var(--light-gray);
-    color: var(--dark-blue);
     margin: 0;
-    font-weight: 400;       /* Normal weight for cleaner look */
+    padding: 20px;
+    background-color: var(--white);
+    color: var(--text-color);
+    font-weight: 400;
     font-size: 1rem;
     position: relative;
     min-height: 100vh;
 }
 
-/* Background logo behind content */
+/* Background logo (transparent) */
 body::before {
     content: "";
     position: fixed;
@@ -35,7 +34,7 @@ body::before {
     height: 400px;
     background: url('logo.png') no-repeat center center;
     background-size: contain;
-    opacity: 0.08;
+    opacity: 0.06; /* subtle transparency */
     transform: translate(-50%, -50%);
     z-index: 0;
     pointer-events: none;
@@ -46,16 +45,14 @@ body::before {
     width: 100%;
     text-align: left;
     margin-bottom: 20px;
-    padding-top: 10px;
-    box-sizing: border-box;
-    position: relative;
     z-index: 10;
+    position: relative;
 }
 
 /* Navigation button */
 .nav-button {
-    background-color: var(--dark-blue);
-    color: var(--white);
+    background-color: var(--green-solid);
+    color: white;
     padding: 10px 22px;
     border: none;
     border-radius: 8px;
@@ -65,16 +62,15 @@ body::before {
     cursor: pointer;
     transition: background-color 0.3s ease;
     display: inline-block;
-    min-width: 130px;
     text-align: center;
 }
 
 .nav-button:hover {
     background-color: var(--saffron-orange);
-    color: var(--dark-blue);
+    color: black;
 }
 
-/* Header */
+/* Header styling */
 .header {
     display: flex;
     align-items: center;
@@ -91,75 +87,71 @@ body::before {
     margin-right: 20px;
 }
 
-/* Table container for responsiveness */
+/* Table container */
 .table-responsive {
     overflow-x: auto;
     width: 100%;
-    -webkit-overflow-scrolling: touch;
     position: relative;
     z-index: 10;
 }
 
-/* Table styles */
+/* Table styling */
 table {
-    min-width: 600px;
     width: 100%;
+    min-width: 600px;
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: rgba(255, 255, 255, 0.85); /* semi-transparent white */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: var(--white);
     border-radius: 8px;
     overflow: hidden;
-    font-weight: 500;
-    font-size: 1rem;
-    color: var(--dark-blue);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 th, td {
     padding: 16px 20px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
     white-space: nowrap;
+    font-weight: 500;
+    font-size: 1rem;
 }
 
 th {
-    background-color: var(--dark-blue);
-    color: var(--white);
+    background-color: var(--saffron-orange);
+    color: white;
     font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 tr:nth-child(even) {
-    background-color: rgba(5, 65, 135, 0.1); /* light transparent blue */
+    background-color: var(--green);
 }
 
 tr:nth-child(odd) {
-    background-color: rgba(255, 153, 51, 0.12); /* subtle transparent saffron */
+    background-color: transparent;
 }
 
 tr:hover {
     background-color: var(--hover-gray);
-    color: var(--dark-blue);
 }
 
-/* Styling for the credit text */
+/* Credit text */
 .credit-text {
     position: fixed;
     top: 12px;
     right: 12px;
     font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--dark-blue);
+    font-weight: 500;
+    color: white;
     background-color: var(--saffron-orange);
     padding: 6px 14px;
-    border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    border-radius: 6px;
     z-index: 1000;
     user-select: none;
     pointer-events: none;
     font-family: 'Montserrat', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 /* Responsive adjustments */
@@ -170,14 +162,11 @@ tr:hover {
     .nav-button {
         font-size: 0.9rem;
         padding: 8px 18px;
-        min-width: 110px;
     }
     th, td {
         padding: 12px 14px;
-        font-size: 0.9rem;
     }
     .header img {
         height: 60px;
-        margin-right: 12px;
     }
 }
