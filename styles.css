@@ -1,21 +1,19 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700;800&display=swap');
 
 :root {
     --green: #138808;
-    --blue: #1a3c70;
+    --orange: #FF9933;
     --white: #ffffff;
     --light-bg: #f9f8f6;
-    --dark: #152238;
+    --dark-blue: #152238;
 }
 
 body {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: var(--light-bg);
-    color: var(--dark);
+    color: var(--dark-blue);
     margin: 0;
     padding: 20px;
-    font-size: 1.3em;
 }
 
 .container {
@@ -32,13 +30,13 @@ body {
 }
 
 .header img {
-    height: 80px;
+    height: 70px;
     margin-right: 15px;
 }
 
 .header h1 {
-    font-size: 3em;
-    font-weight: 700;
+    font-size: 2.2em;
+    font-weight: 800;
     color: var(--green);
     margin: 0;
 }
@@ -47,19 +45,19 @@ body {
     display: inline-block;
     background-color: var(--green);
     color: var(--white);
-    padding: 14px 28px;
+    padding: 12px 24px;
     border: none;
     border-radius: 8px;
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 1em;
     margin-bottom: 20px;
     transition: background-color 0.3s ease;
 }
 
 .nav-button:hover {
-    background-color: var(--blue);
+    background-color: var(--orange);
 }
 
 .table-responsive {
@@ -73,11 +71,10 @@ table {
     box-shadow: 0 4px 8px rgba(0,0,0,0.08);
     border-radius: 8px;
     overflow: hidden;
-    font-size: 1.2em;
 }
 
 thead th {
-    padding: 16px;
+    padding: 14px;
     background-color: var(--green);
     color: var(--white);
     text-align: left;
@@ -86,16 +83,13 @@ thead th {
 }
 
 tbody td {
-    padding: 16px;
+    padding: 14px;
     border-bottom: 1px solid #ddd;
+    font-weight: 500;
 }
 
 tbody tr:nth-child(even) {
-    background-color: rgba(19, 136, 8, 0.1);
-}
-
-tbody tr:nth-child(odd) {
-    background-color: rgba(26, 60, 112, 0.1);
+    background-color: #f9f9f9;
 }
 
 tbody tr:hover {
@@ -108,4 +102,11 @@ tbody tr:hover {
     font-size: 0.9em;
     color: #555;
     margin-top: 40px;
+}
+
+#loading-message {
+    text-align: center;
+    font-weight: 700;
+    color: var(--green);
+    margin-top: 15px;
 }
