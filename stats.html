@@ -4,26 +4,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ISL Stats - Players</title>
+    <title>ISL Player Stats</title>
     <link rel="stylesheet" href="styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
     <div class="credit-text">Made by Vishruth Pidatala</div>
     <div class="container">
-        <div class="top-navigation">
-            <a href="index.html" class="nav-button">Back to Homepage</a>
-        </div>
+        <a href="index.html" class="nav-button">Back to Homepage</a>
 
         <div class="header">
             <img src="logo.png" alt="ISL Logo" />
-            <h1>STATS</h1>
+            <h1>Player Stats</h1>
         </div>
 
         <div class="table-responsive">
             <table>
-               <thead>
+                <thead>
                     <tr>
                         <th>Player</th>
                         <th>Matches Played</th>
@@ -31,12 +28,21 @@
                         <th>Average Match Rating</th>
                     </tr>
                 </thead>
-                <tbody id="stats-table-body">
-                    <!-- Populated by JS -->
-                </tbody>
+                <tbody id="stats-table-body"></tbody>
             </table>
         </div>
         <div id="loading-message">Loading stats...</div>
+    </div>
+
+    <!-- Modal for player profiles -->
+    <div class="modal" id="player-modal">
+        <div class="modal-content" id="modal-content">
+            <h2 id="modal-player-name"></h2>
+            <p id="modal-matches"></p>
+            <p id="modal-ga"></p>
+            <p id="modal-rating"></p>
+            <button class="close-modal" onclick="closeModal()">Close</button>
+        </div>
     </div>
 
     <script>
@@ -47,38 +53,47 @@
             const loadingMessage = document.getElementById('loading-message');
             tableBody.innerHTML = '';
             loadingMessage.style.display = 'block';
+
             try {
                 const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
                 if (!response.ok) throw new Error('HTTP error ' + response.status);
                 const players = await response.json();
-                if (!players.length) {
-                    const newRow = tableBody.insertRow();
-                    const cell = newRow.insertCell();
-                    cell.colSpan = 5;
-                    cell.textContent = 'No player stats found in the Google Sheet.';
-                    cell.style.textAlign = 'center';
-                    return;
-                }
                 players.sort((a, b) => b['G/A'] - a['G/A']);
                 players.forEach(player => {
                     const newRow = tableBody.insertRow();
-                    newRow.insertCell().textContent = player['Player'];
-                    newRow.insertCell().textContent = player['Matches Played'];
-                    newRow.insertCell().textContent = player['G/A'];
-                    newRow.insertCell().textContent = player['Average Match Rating'];
-                });
+                    const nameCell = newRow.insertCell();
+                    nameCell.textContent = player['Player'];
+                    const matchesCell = newRow.insertCell();
+                    matchesCell.textContent = player['Matches Played'];
+                    const gaCell = newRow.insertCell();
+                    gaCell.textContent = player['G/A'];
+                    const ratingCell = newRow.insertCell();
+                    ratingCell.textContent = player['Average Match Rating'];
 
+                    newRow.addEventListener('click', () => openModal(player));
                 });
             } catch (error) {
                 const newRow = tableBody.insertRow();
                 const cell = newRow.insertCell();
-                cell.colSpan = 5;
-                cell.textContent = `Failed to load stats: ${error.message}. Please check your Google Apps Script URL.`;
+                cell.colSpan = 4;
+                cell.textContent = 'Error loading stats: ' + error.message;
                 cell.style.color = 'red';
                 cell.style.textAlign = 'center';
             } finally {
                 loadingMessage.style.display = 'none';
             }
+        }
+
+        function openModal(player) {
+            document.getElementById('modal-player-name').textContent = player['Player'];
+            document.getElementById('modal-matches').textContent = 'Matches Played: ' + player['Matches Played'];
+            document.getElementById('modal-ga').textContent = 'G/A: ' + player['G/A'];
+            document.getElementById('modal-rating').textContent = 'Average Match Rating: ' + player['Average Match Rating'];
+            document.getElementById('player-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('player-modal').style.display = 'none';
         }
 
         document.addEventListener('DOMContentLoaded', loadPlayerStats);
