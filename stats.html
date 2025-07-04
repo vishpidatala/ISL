@@ -26,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody id="stats-table-body">
-                    <!-- Your JavaScript or static rows here -->
+                    <!-- This will be dynamically filled -->
                 </tbody>
             </table>
         </div>
@@ -37,31 +37,45 @@
     </div>
 
     <script>
-        // Your existing JavaScript to load from Google Sheets or static content goes here
-        document.addEventListener('DOMContentLoaded', () => {
-            // Example static data (replace with your fetch code)
-            const players = [
-                { Player: 'Vishruth Pidatala', 'Matches Played': 15, 'G/A': 20, 'Average Match Rating': 8.2 },
-                { Player: 'Another Player', 'Matches Played': 12, 'G/A': 14, 'Average Match Rating': 7.5 }
-            ];
+        // Replace this URL with your deployed Google Apps Script Web App URL
+        const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec';
 
+        async function loadPlayerStats() {
             const tableBody = document.getElementById('stats-table-body');
             const loadingMessage = document.getElementById('loading-message');
 
             tableBody.innerHTML = '';
-            loadingMessage.style.display = 'none';
+            loadingMessage.style.display = 'block';
 
-            players.forEach(player => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${player.Player}</td>
-                    <td>${player['Matches Played']}</td>
-                    <td>${player['G/A']}</td>
-                    <td>${player['Average Match Rating']}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        });
+            try {
+                const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+                const players = await response.json();
+
+                if (players.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No player stats found.</td></tr>`;
+                    return;
+                }
+
+                players.forEach(player => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${player.Player}</td>
+                        <td>${player['Matches Played']}</td>
+                        <td>${player['G/A']}</td>
+                        <td>${player['Average Match Rating']}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                tableBody.innerHTML = `<tr><td colspan="4" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
+            } finally {
+                loadingMessage.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPlayerStats);
     </script>
 </body>
 </html>
