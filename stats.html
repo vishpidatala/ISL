@@ -8,8 +8,9 @@
 </head>
 <body>
     <div class="credit-text">
-  Made by Vishruth Pidatala
-</div>
+        Made by Vishruth Pidatala
+    </div>
+
     <div class="container">
         <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
 
@@ -29,18 +30,16 @@
                     </tr>
                 </thead>
                 <tbody id="stats-table-body">
-                    <!-- This will be dynamically filled -->
+                    <!-- Dynamically filled -->
                 </tbody>
             </table>
         </div>
 
         <div id="loading-message">Loading stats...</div>
-
-        <div class="credit-text"></div>
     </div>
 
     <script>
-        // Replace this URL with your deployed Google Apps Script Web App URL
+        // Your deployed Google Apps Script Web App URL
         const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
 
         async function loadPlayerStats() {
@@ -61,6 +60,13 @@
                     return;
                 }
 
+                // Sort players by G/A in descending order
+                players.sort((a, b) => {
+                    const gaA = parseFloat(a['G/A']) || 0;
+                    const gaB = parseFloat(b['G/A']) || 0;
+                    return gaB - gaA;
+                });
+
                 players.forEach(player => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -71,6 +77,7 @@
                     `;
                     tableBody.appendChild(row);
                 });
+
             } catch (error) {
                 tableBody.innerHTML = `<tr><td colspan="4" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
             } finally {
