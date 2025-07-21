@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody id="stats-table-body">
-                    <!-- Dynamically filled -->
+                    <!-- Filled dynamically -->
                 </tbody>
             </table>
         </div>
@@ -39,7 +39,6 @@
     </div>
 
     <script>
-        // Your deployed Google Apps Script Web App URL
         const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
 
         async function loadPlayerStats() {
@@ -55,12 +54,12 @@
 
                 const players = await response.json();
 
-                if (players.length === 0) {
+                if (!Array.isArray(players) || players.length === 0) {
                     tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No player stats found.</td></tr>`;
                     return;
                 }
 
-                // Sort players by Average Match Rating in descending order
+                // Sort by Average Match Rating descending
                 players.sort((a, b) => {
                     const ratingA = parseFloat(a['Average Match Rating']) || 0;
                     const ratingB = parseFloat(b['Average Match Rating']) || 0;
@@ -70,23 +69,5 @@
                 players.forEach(player => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${player.Player}</td>
-                        <td>${player['Matches Played']}</td>
-                        <td>${player['G/A']}</td>
-                        <td>${player['Average Match Rating']}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-
-            } catch (error) {
-                tableBody.innerHTML = `<tr><td colspan="4" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
-            } finally {
-                loadingMessage.style.display = 'none';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadPlayerStats);
-    </script>
-</body>
-</html>
-
+                        <td>${player['Player'] ?? ''}</td>
+                        <td>${player['Matches Played'] ??
