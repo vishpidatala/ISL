@@ -26,11 +26,11 @@
                         <th>Player</th>
                         <th>Matches Played</th>
                         <th>G/A</th>
-                        <th>Average Match Rating</th>
+                        <th>MVP Points</th>
                     </tr>
                 </thead>
                 <tbody id="stats-table-body">
-                    <!-- Filled dynamically -->
+                    <!-- Dynamically filled -->
                 </tbody>
             </table>
         </div>
@@ -59,11 +59,11 @@
                     return;
                 }
 
-                // Sort by Average Match Rating descending
+                // Sort by MVP Points descending
                 players.sort((a, b) => {
-                    const ratingA = parseFloat(a['Average Match Rating']) || 0;
-                    const ratingB = parseFloat(b['Average Match Rating']) || 0;
-                    return ratingB - ratingA;
+                    const mvpA = parseFloat(a['MVP Points']) || 0;
+                    const mvpB = parseFloat(b['MVP Points']) || 0;
+                    return mvpB - mvpA;
                 });
 
                 players.forEach(player => {
@@ -72,7 +72,7 @@
                         <td>${player['Player'] ?? ''}</td>
                         <td>${player['Matches Played'] ?? ''}</td>
                         <td>${player['G/A'] ?? ''}</td>
-                        <td>${player['Average Match Rating'] ?? ''}</td>
+                        <td>${player['MVP Points'] ?? ''}</td>
                     `;
                     tableBody.appendChild(row);
                 });
