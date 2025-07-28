@@ -36,7 +36,6 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
       background-color: rgba(255,255,255,0.9);
       border-radius: 12px;
       overflow: hidden;
@@ -62,44 +61,19 @@
 
     .top1 {
       background: linear-gradient(to right, gold, #fffbc1);
-      animation: slideIn 1s ease-out;
     }
 
     .top2 {
       background: #e0e0e0;
-      animation: slideIn 1.2s ease-out;
     }
 
     .top3 {
       background: #f5c998;
-      animation: slideIn 1.4s ease-out;
     }
 
     .top4, .top5 {
-      box-shadow: 0 0 10px 2px rgba(255,165,0,0.5);
+      box-shadow: 0 0 10px 2px rgba(255,165,0,0.3);
       font-weight: bold;
-      animation: slideIn 1.6s ease-out;
-    }
-
-    .top1:hover, .top2:hover, .top3:hover, .top4:hover, .top5:hover {
-      animation: bounce 0.5s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes bounce {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
     }
 
     @keyframes spin {
@@ -138,17 +112,20 @@
       color: gray;
     }
 
-    .credit-text {
+    .credit-container {
       text-align: center;
       font-size: 14px;
-      margin-top: 40px;
       color: black;
+      margin-top: 50px;
+      padding-bottom: 20px;
+    }
+
+    .credit-container p {
+      margin: 4px;
     }
   </style>
 </head>
 <body>
-  <div class="credit-text">Made by Vishruth Pidatala</div>
-
   <div class="container">
     <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
 
@@ -173,6 +150,11 @@
     </div>
 
     <div id="loading-message">Loading stats...</div>
+  </div>
+
+  <div class="credit-container">
+    <p>Made by Vishruth Pidatala</p>
+    <p>© Indian Soccer League™</p>
   </div>
 
   <script>
