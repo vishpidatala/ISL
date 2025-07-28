@@ -4,23 +4,145 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ISL Player Stats</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="logo.png" />
   <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fffaf0, #f7f1e3);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .header img {
+      width: 100px;
+      opacity: 0.15;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .header h1 {
+      margin-top: 20px;
+      font-size: 2em;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      background-color: rgba(255,255,255,0.9);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+
+    thead tr {
+      background: linear-gradient(to right, #ff9933, #ffffff, #138808);
+      color: #000;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+      transform: scale(1.01);
+      transition: 0.2s;
+    }
+
     .top1 {
       background: linear-gradient(to right, gold, #fffbc1);
-      font-weight: bold;
+      animation: slideIn 1s ease-out;
     }
+
     .top2 {
-      background-color: #e0e0e0;
-      font-weight: bold;
+      background: #e0e0e0;
+      animation: slideIn 1.2s ease-out;
     }
+
     .top3 {
-      background-color: #f5c998;
+      background: #f5c998;
+      animation: slideIn 1.4s ease-out;
+    }
+
+    .top4, .top5 {
+      box-shadow: 0 0 10px 2px rgba(255,165,0,0.5);
+      font-weight: bold;
+      animation: slideIn 1.6s ease-out;
+    }
+
+    .top1:hover, .top2:hover, .top3:hover, .top4:hover, .top5:hover {
+      animation: bounce 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .crown {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+      animation: spin 4s linear infinite;
+      vertical-align: middle;
+    }
+
+    .gold { color: gold; }
+    .silver { color: silver; }
+    .bronze { color: #cd7f32; }
+
+    .nav-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background-color: #ff9933;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
       font-weight: bold;
     }
-    .top4, .top5 {
-      font-weight: bold;
-      box-shadow: 0 0 5px orange;
+
+    #loading-message {
+      margin-top: 20px;
+      font-style: italic;
+      color: gray;
+    }
+
+    .credit-text {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 40px;
+      color: black;
     }
   </style>
 </head>
@@ -45,7 +167,7 @@
           </tr>
         </thead>
         <tbody id="stats-table-body">
-          <!-- This will be dynamically filled -->
+          <!-- Filled by JavaScript -->
         </tbody>
       </table>
     </div>
@@ -74,7 +196,7 @@
           return;
         }
 
-        // Sort by G/A descending
+        // Sort by G/A (descending)
         players.sort((a, b) => {
           const gaA = parseFloat(a['G/A']) || 0;
           const gaB = parseFloat(b['G/A']) || 0;
@@ -83,19 +205,19 @@
 
         players.forEach((player, index) => {
           const row = document.createElement('tr');
-
           let specialClass = '';
-          let playerName = player['Player'] ?? '';
+          let name = player['Player'] ?? '';
+          let crownHTML = '';
 
           if (index === 0) {
             specialClass = 'top1';
-            playerName = '👑 ' + playerName;
+            crownHTML = `<span class="crown gold">👑</span>`;
           } else if (index === 1) {
             specialClass = 'top2';
-            playerName = '🥈 ' + playerName;
+            crownHTML = `<span class="crown silver">👑</span>`;
           } else if (index === 2) {
             specialClass = 'top3';
-            playerName = '🥉 ' + playerName;
+            crownHTML = `<span class="crown bronze">👑</span>`;
           } else if (index === 3) {
             specialClass = 'top4';
           } else if (index === 4) {
@@ -104,7 +226,7 @@
 
           row.className = specialClass;
           row.innerHTML = `
-            <td>${playerName}</td>
+            <td>${crownHTML}${name}</td>
             <td>${player['Matches Played'] ?? ''}</td>
             <td>${player['G/A'] ?? ''}</td>
           `;
