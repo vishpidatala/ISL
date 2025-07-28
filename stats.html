@@ -1,90 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ISL Player Stats</title>
-    <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISL Player Stats</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .top1 {
+      background: linear-gradient(to right, gold, #fffbc1);
+      font-weight: bold;
+    }
+    .top2 {
+      background-color: #e0e0e0;
+      font-weight: bold;
+    }
+    .top3 {
+      background-color: #f5c998;
+      font-weight: bold;
+    }
+    .top4, .top5 {
+      font-weight: bold;
+      box-shadow: 0 0 5px orange;
+    }
+  </style>
 </head>
 <body>
-    <div class="credit-text">
-        Made by Vishruth Pidatala
+  <div class="credit-text">Made by Vishruth Pidatala</div>
+
+  <div class="container">
+    <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
+
+    <div class="header">
+      <img src="logo.png" alt="ISL Logo" />
+      <h1>Player Stats</h1>
     </div>
 
-    <div class="container">
-        <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
-
-        <div class="header">
-            <img src="logo.png" alt="ISL Logo" />
-            <h1>Player Stats</h1>
-        </div>
-
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Matches Played</th>
-                        <th>G/A</th>
-                        <th>MVP Points</th>
-                    </tr>
-                </thead>
-                <tbody id="stats-table-body">
-                    <!-- Dynamically filled -->
-                </tbody>
-            </table>
-        </div>
-
-        <div id="loading-message">Loading stats...</div>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Matches Played</th>
+            <th>G/A</th>
+          </tr>
+        </thead>
+        <tbody id="stats-table-body">
+          <!-- This will be dynamically filled -->
+        </tbody>
+      </table>
     </div>
 
-    <script>
-        const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
+    <div id="loading-message">Loading stats...</div>
+  </div>
 
-        async function loadPlayerStats() {
-            const tableBody = document.getElementById('stats-table-body');
-            const loadingMessage = document.getElementById('loading-message');
+  <script>
+    const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
 
-            tableBody.innerHTML = '';
-            loadingMessage.style.display = 'block';
+    async function loadPlayerStats() {
+      const tableBody = document.getElementById('stats-table-body');
+      const loadingMessage = document.getElementById('loading-message');
 
-            try {
-                const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      tableBody.innerHTML = '';
+      loadingMessage.style.display = 'block';
 
-                const players = await response.json();
+      try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-                if (!Array.isArray(players) || players.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No player stats found.</td></tr>`;
-                    return;
-                }
+        const players = await response.json();
 
-                // Sort by MVP Points descending
-                players.sort((a, b) => {
-                    const mvpA = parseFloat(a['MVP Points']) || 0;
-                    const mvpB = parseFloat(b['MVP Points']) || 0;
-                    return mvpB - mvpA;
-                });
-
-                players.forEach(player => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${player['Player'] ?? ''}</td>
-                        <td>${player['Matches Played'] ?? ''}</td>
-                        <td>${player['G/A'] ?? ''}</td>
-                        <td>${player['MVP Points'] ?? ''}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-
-            } catch (error) {
-                tableBody.innerHTML = `<tr><td colspan="4" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
-            } finally {
-                loadingMessage.style.display = 'none';
-            }
+        if (!Array.isArray(players) || players.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No player stats found.</td></tr>`;
+          return;
         }
 
-        document.addEventListener('DOMContentLoaded', loadPlayerStats);
-    </script>
+        // Sort by G/A descending
+        players.sort((a, b) => {
+          const gaA = parseFloat(a['G/A']) || 0;
+          const gaB = parseFloat(b['G/A']) || 0;
+          return gaB - gaA;
+        });
+
+        players.forEach((player, index) => {
+          const row = document.createElement('tr');
+
+          let specialClass = '';
+          let playerName = player['Player'] ?? '';
+
+          if (index === 0) {
+            specialClass = 'top1';
+            playerName = '👑 ' + playerName;
+          } else if (index === 1) {
+            specialClass = 'top2';
+            playerName = '🥈 ' + playerName;
+          } else if (index === 2) {
+            specialClass = 'top3';
+            playerName = '🥉 ' + playerName;
+          } else if (index === 3) {
+            specialClass = 'top4';
+          } else if (index === 4) {
+            specialClass = 'top5';
+          }
+
+          row.className = specialClass;
+          row.innerHTML = `
+            <td>${playerName}</td>
+            <td>${player['Matches Played'] ?? ''}</td>
+            <td>${player['G/A'] ?? ''}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+
+      } catch (error) {
+        tableBody.innerHTML = `<tr><td colspan="3" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
+      } finally {
+        loadingMessage.style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadPlayerStats);
+  </script>
 </body>
 </html>
