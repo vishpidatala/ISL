@@ -1,239 +1,130 @@
-/* Basic Resets and Body Styles */
-:root {
-    /* Define your color palette */
-    --dark-blue: #1a237e; /* A deep blue, common for sports teams */
-    --light-blue: #42a5f5; /* A brighter blue for accents */
-    --orange: #ff6f00; /* A vibrant orange for highlights/hover */
-    --white: #ffffff;
-    --light-grey: #f4f4f4;
-    --text-color: #333333;
-
-    /* New colors inspired by the image */
-    --header-orange: #ff9800; /* Lighter orange for some headers */
-    --header-green: #4caf50; /* Green for some headers */
-    --row-alt-grey: #f0f0f0; /* Very light grey for alternating rows */
-}
-
+/* General Reset */
 body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    background-color: var(--light-grey);
-    color: var(--text-color);
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensures body takes full viewport height */
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f7f9fa;
+  color: #333;
+  line-height: 1.6;
 }
 
-/* Container for main content */
+/* Container */
 .container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-    flex-grow: 1; /* Allows container to grow and push footer down */
+  max-width: 960px;
+  margin: auto;
+  padding: 2rem;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border-radius: 10px;
+  margin-top: 30px;
 }
 
-/* Header Styles */
+/* Header */
 .header {
-    background-color: var(--dark-blue);
-    color: var(--white);
-    padding: 20px 0;
-    text-align: center;
-    border-radius: 12px; /* Rounded corners for the header */
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px; /* Space between logo and title */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 1.5rem;
 }
 
 .header img {
-    height: 80px; /* Adjust logo size */
-    width: auto;
-    border-radius: 50%; /* Make logo round if desired */
-    object-fit: cover;
+  height: 60px;
 }
 
 .header h1 {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 3.5em; /* Large, impactful title */
-    margin: 0;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+  color: #2c3e50;
+  font-size: 2rem;
 }
 
-/* Navigation Bar Styles */
-.nav-bar {
-    background-color: var(--light-blue);
-    padding: 15px 0;
-    text-align: center;
-    border-radius: 8px; /* Rounded corners for nav bar */
-    margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* Navigation */
+.nav-button {
+  display: inline-block;
+  background-color: #27ae60;
+  color: white;
+  padding: 10px 16px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  transition: background 0.3s;
 }
 
-.nav-bar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex; /* Arrange links in a row */
-    justify-content: center; /* Center links horizontally */
-    flex-wrap: wrap; /* Allow links to wrap on smaller screens */
-    gap: 20px; /* Space between navigation items */
+.nav-button:hover {
+  background-color: #219150;
 }
 
-.nav-bar li {
-    margin: 0;
+/* Table */
+.table-responsive {
+  overflow-x: auto;
 }
 
-.nav-bar a {
-    color: var(--dark-blue);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.1em;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    display: block; /* Make the whole padding area clickable */
-}
-
-.nav-bar a:hover {
-    background-color: var(--dark-blue);
-    color: var(--white);
-}
-
-/* Button Styles (General) */
-.button {
-    background-color: var(--orange);
-    color: var(--white);
-    padding: 15px 30px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.2em;
-    font-weight: 700;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: inline-block; /* Allows padding and width to be respected */
-    margin-top: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.button:hover {
-    background-color: #e65100; /* Darker orange on hover */
-    transform: translateY(-2px); /* Slight lift effect */
-}
-
-/* Footer Styles */
-.footer {
-    background-color: var(--dark-blue);
-    color: var(--white);
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px; /* Space above the footer */
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    box-shadow: 0 -4px 8px rgba(0,0,0,0.2);
-}
-
-.footer p {
-    margin: 0;
-    font-size: 0.9em;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .header h1 {
-        font-size: 2.5em; /* Smaller title on mobile */
-    }
-    .header img {
-        height: 60px; /* Smaller logo on mobile */
-    }
-    .nav-bar ul {
-        flex-direction: column; /* Stack nav items vertically on mobile */
-        gap: 10px; /* Reduce gap */
-    }
-    .nav-bar a {
-        font-size: 1em; /* Smaller font for nav links */
-        padding: 8px 10px;
-    }
-    .button {
-        padding: 12px 25px;
-        font-size: 1.1em;
-    }
-    .container {
-        padding: 0 10px; /* Less padding on very small screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .header h1 {
-        font-size: 2em; /* Even smaller title */
-    }
-    .header img {
-        height: 50px; /* Even smaller logo */
-    }
-}
-
-/* Table Specific Styles (Inspired by image) */
 table {
-    border-radius: 12px; /* More rounded corners for the entire table */
-    overflow: hidden; /* Ensures content respects border-radius */
-    border: 1px solid #ddd; /* Subtle border around the table */
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-th {
-    /* Default header background from dark-blue, but you can override with classes */
-    background-color: var(--dark-blue); 
-    color: var(--white);
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd; /* Separator between header and first row */
+th, td {
+  padding: 14px 18px;
+  text-align: center;
 }
 
-/* Specific header colors from the image */
-th.player-header {
-    background-color: var(--header-orange); /* Orange for Player header */
-}
-
-th.matches-header {
-    background-color: var(--header-green); /* Green for Matches Played header */
-}
-
-th.ga-header {
-    background-color: var(--header-orange); /* Orange for G/A header */
-}
-
-th.rating-header {
-    background-color: var(--header-green); /* Green for Average Match Rating header */
-}
-
-
-td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--row-alt-grey); /* Lighter border between rows */
-    font-size: 1.1em;
-    white-space: nowrap;
-    background-color: var(--white); /* Default background for cells */
-}
-
-/* Alternating row colors for table body */
-tbody tr:nth-child(odd) {
-    background-color: var(--white); /* White for odd rows */
+thead tr {
+  background-color: #2ecc71;
+  color: white;
 }
 
 tbody tr:nth-child(even) {
-    background-color: var(--row-alt-grey); /* Light grey for even rows */
+  background-color: #f2fdf6;
 }
 
-/* Hover effect for table rows */
+tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
 tbody tr:hover {
-    background-color: #e0e0e0; /* Slightly darker grey on hover */
-    cursor: pointer;
+  background-color: #eafaf0;
+}
+
+/* Glow effect for top players */
+.top-player {
+  animation: glowScale 2s ease-in-out infinite alternate;
+}
+
+@keyframes glowScale {
+  0% {
+    box-shadow: 0 0 6px rgba(46, 204, 113, 0.3);
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
+    transform: scale(1.01);
+  }
+}
+
+/* Crown Spin */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.crown {
+  display: inline-block;
+  margin-left: 6px;
+  animation: spin 3s linear infinite;
+  font-size: 1.2rem;
+}
+
+.rank-1 { color: gold; }
+.rank-2 { color: silver; }
+.rank-3 { color: #cd7f32; }
+
+/* Footer Credit */
+.credit-text {
+  text-align: center;
+  margin-top: 30px;
+  color: #999;
+  font-size: 0.9rem;
 }
