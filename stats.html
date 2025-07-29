@@ -5,6 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ISL Player Stats</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Add these animations without touching your existing styles */
+
+    /* Crown spinning animation for top 3 */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .crown {
+      display: inline-block;
+      margin-left: 6px;
+      animation: spin 3s linear infinite;
+      font-size: 1.2rem;
+    }
+
+    .rank-1 { color: gold; }
+    .rank-2 { color: silver; }
+    .rank-3 { color: #cd7f32; }
+
+    /* Glow and subtle scale for top 5 rows */
+    .top-player {
+      animation: glowScale 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowScale {
+      0% {
+        box-shadow: 0 0 6px rgba(255, 165, 0, 0.4);
+        transform: scale(1);
+      }
+      100% {
+        box-shadow: 0 0 12px rgba(255, 165, 0, 0.8);
+        transform: scale(1.02);
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="credit-text">Made by Vishruth Pidatala</div>
@@ -52,14 +88,20 @@
 
         const players = await response.json();
 
-        players.sort((a, b) => (parseInt(b['G/A']) || 0) - (parseInt(a['G/A']) || 0));
+        // Sort descending by G/A (convert to number for safety)
+        players.sort((a, b) => (parseFloat(b['G/A']) || 0) - (parseFloat(a['G/A']) || 0));
 
-        const crowns = ['👑', '🥈', '🥉'];
+        const crowns = ['👑', '👑', '👑'];
+
         players.forEach((player, index) => {
           const row = document.createElement('tr');
-          row.className = index < 5 ? 'top-player glow' : '';
+          if (index < 5) row.classList.add('top-player');
 
-          const crown = index < 3 ? `<span class="crown rank-${index + 1}">${crowns[index]}</span>` : '';
+          let crown = '';
+          if (index === 0) crown = `<span class="crown rank-1">${crowns[0]}</span>`;
+          else if (index === 1) crown = `<span class="crown rank-2">${crowns[1]}</span>`;
+          else if (index === 2) crown = `<span class="crown rank-3">${crowns[2]}</span>`;
+
           row.innerHTML = `
             <td>${index + 1} ${crown}</td>
             <td>${player.Player}</td>
@@ -68,6 +110,7 @@
           `;
           tableBody.appendChild(row);
         });
+
       } catch (error) {
         tableBody.innerHTML = `<tr><td colspan="4" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
       } finally {
