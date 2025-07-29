@@ -1,86 +1,174 @@
+/* Basic Resets and Body Styles */
+:root {
+    /* Define your color palette */
+    --dark-blue: #1a237e; /* A deep blue, common for sports teams */
+    --light-blue: #42a5f5; /* A brighter blue for accents */
+    --orange: #ff6f00; /* A vibrant orange for highlights/hover */
+    --white: #ffffff;
+    --light-grey: #f4f4f4;
+    --text-color: #333333;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('logo.png') no-repeat center center fixed;
-    background-size: cover;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #333;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
-    padding: 0;
+    background-color: var(--light-grey);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures body takes full viewport height */
 }
 
+/* Container for main content */
 .container {
-    background-color: rgba(255, 255, 255, 0.85);
-    margin: 2rem auto;
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 1000px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    flex-grow: 1; /* Allows container to grow and push footer down */
 }
 
+/* Header Styles */
 .header {
+    background-color: var(--dark-blue);
+    color: var(--white);
+    padding: 20px 0;
     text-align: center;
-    margin-bottom: 1.5rem;
+    border-radius: 12px; /* Rounded corners for the header */
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Space between logo and title */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
 }
 
 .header img {
-    width: 80px;
-    height: auto;
+    height: 80px; /* Adjust logo size */
+    width: auto;
+    border-radius: 50%; /* Make logo round if desired */
+    object-fit: cover;
 }
 
-h1 {
-    font-size: 2rem;
-    color: #2b2b2b;
+.header h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 3.5em; /* Large, impactful title */
+    margin: 0;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.nav-button {
-    display: inline-block;
-    margin-bottom: 1rem;
-    padding: 0.6rem 1.2rem;
-    background-color: #2e7d32;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-.nav-button:hover {
-    background-color: #1b5e20;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-}
-
-thead tr {
-    background: linear-gradient(to right, #4caf50, #ff9800);
-    color: white;
-}
-
-thead th {
-    padding: 12px;
-    text-align: left;
-    font-weight: 600;
-    border-bottom: 2px solid #ddd;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tbody tr:nth-child(odd) {
-    background-color: #ffffff;
-}
-
-tbody td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.credit-text {
+/* Navigation Bar Styles */
+.nav-bar {
+    background-color: var(--light-blue);
+    padding: 15px 0;
     text-align: center;
-    color: black;
-    font-size: 0.9rem;
-    margin-top: 1.5rem;
+    border-radius: 8px; /* Rounded corners for nav bar */
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Arrange links in a row */
+    justify-content: center; /* Center links horizontally */
+    flex-wrap: wrap; /* Allow links to wrap on smaller screens */
+    gap: 20px; /* Space between navigation items */
+}
+
+.nav-bar li {
+    margin: 0;
+}
+
+.nav-bar a {
+    color: var(--dark-blue);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1em;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: block; /* Make the whole padding area clickable */
+}
+
+.nav-bar a:hover {
+    background-color: var(--dark-blue);
+    color: var(--white);
+}
+
+/* Button Styles (General) */
+.button {
+    background-color: var(--orange);
+    color: var(--white);
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block; /* Allows padding and width to be respected */
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.button:hover {
+    background-color: #e65100; /* Darker orange on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Footer Styles */
+.footer {
+    background-color: var(--dark-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px; /* Space above the footer */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    box-shadow: 0 -4px 8px rgba(0,0,0,0.2);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2.5em; /* Smaller title on mobile */
+    }
+    .header img {
+        height: 60px; /* Smaller logo on mobile */
+    }
+    .nav-bar ul {
+        flex-direction: column; /* Stack nav items vertically on mobile */
+        gap: 10px; /* Reduce gap */
+    }
+    .nav-bar a {
+        font-size: 1em; /* Smaller font for nav links */
+        padding: 8px 10px;
+    }
+    .button {
+        padding: 12px 25px;
+        font-size: 1.1em;
+    }
+    .container {
+        padding: 0 10px; /* Less padding on very small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 2em; /* Even smaller title */
+    }
+    .header img {
+        height: 50px; /* Even smaller logo */
+    }
 }
