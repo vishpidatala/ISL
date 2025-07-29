@@ -1,84 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ISL Player Stats</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" type="image/png" href="logo.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISL Player Stats</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="logo.png" />
 </head>
 <body>
-    <div class="credit-text">Made by Vishruth Pidatala</div>
-    <div class="container">
-        <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
+  <div class="credit-text">Made by Vishruth Pidatala</div>
+  <div class="container">
+    <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
 
-        <div class="header">
-            <img src="logo.png" alt="ISL Logo" />
-            <h1>Player Stats</h1>
-        </div>
-
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Matches Played</th>
-                        <th>G/A</th>
-                        <th>Average Match Rating</th>
-                    </tr>
-                </thead>
-                <tbody id="stats-table-body">
-                    <!-- Stats go here -->
-                </tbody>
-            </table>
-        </div>
-
-        <div id="loading-message">Loading stats...</div>
+    <div class="header">
+      <img src="logo.png" alt="ISL Logo" />
+      <h1>Player Stats</h1>
     </div>
 
-    <script>
-        const URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Matches Played</th>
+            <th>G/A</th>
+          </tr>
+        </thead>
+        <tbody id="stats-table-body">
+          <!-- Filled by script -->
+        </tbody>
+      </table>
+    </div>
 
-        async function loadStats() {
-            const tableBody = document.getElementById("stats-table-body");
-            const loadingMessage = document.getElementById("loading-message");
+    <div id="loading-message">Loading stats...</div>
+  </div>
 
-            tableBody.innerHTML = "";
-            loadingMessage.style.display = "block";
+  <script>
+    const URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
 
-            try {
-                const res = await fetch(URL);
-                if (!res.ok) throw new Error("Failed to fetch data.");
-                const players = await res.json();
+    async function loadStats() {
+      const tableBody = document.getElementById("stats-table-body");
+      const loadingMessage = document.getElementById("loading-message");
 
-                // Sort by G/A
-                players.sort((a, b) => Number(b["G/A"]) - Number(a["G/A"]));
+      tableBody.innerHTML = "";
+      loadingMessage.style.display = "block";
 
-                players.forEach((player, index) => {
-                    const row = document.createElement("tr");
+      try {
+        const res = await fetch(URL);
+        if (!res.ok) throw new Error("Failed to fetch data.");
+        const players = await res.json();
 
-                    let crown = "";
-                    if (index === 0) crown = '<span class="crown gold"></span>';
-                    else if (index === 1) crown = '<span class="crown silver"></span>';
-                    else if (index === 2) crown = '<span class="crown bronze"></span>';
+        // Sort by G/A
+        players.sort((a, b) => Number(b["G/A"]) - Number(a["G/A"]));
 
-                    row.innerHTML = `
-                        <td>${crown} ${player.Player}</td>
-                        <td>${player['Matches Played']}</td>
-                        <td>${player['G/A']}</td>
-                        <td>${player['Average Match Rating']}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
+        players.forEach((player, index) => {
+          const row = document.createElement("tr");
 
-            } catch (err) {
-                tableBody.innerHTML = `<tr><td colspan="4" style="color:red;text-align:center;">Error: ${err.message}</td></tr>`;
-            } finally {
-                loadingMessage.style.display = "none";
-            }
-        }
+          let crown = "";
+          if (index === 0) crown = '<span class="crown gold"></span>';
+          else if (index === 1) crown = '<span class="crown silver"></span>';
+          else if (index === 2) crown = '<span class="crown bronze"></span>';
 
-        document.addEventListener("DOMContentLoaded", loadStats);
-    </script>
+          row.innerHTML = `
+            <td>${crown} ${player.Player}</td>
+            <td>${player['Matches Played']}</td>
+            <td>${player['G/A']}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+
+      } catch (err) {
+        tableBody.innerHTML = `<tr><td colspan="3" style="color:red;text-align:center;">Error: ${err.message}</td></tr>`;
+      } finally {
+        loadingMessage.style.display = "none";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadStats);
+  </script>
 </body>
 </html>
