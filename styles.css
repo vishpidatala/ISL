@@ -7,6 +7,11 @@
     --white: #ffffff;
     --light-grey: #f4f4f4;
     --text-color: #333333;
+
+    /* New colors inspired by the image */
+    --header-orange: #ff9800; /* Lighter orange for some headers */
+    --header-green: #4caf50; /* Green for some headers */
+    --row-alt-grey: #f0f0f0; /* Very light grey for alternating rows */
 }
 
 body {
@@ -171,4 +176,64 @@ body {
     .header img {
         height: 50px; /* Even smaller logo */
     }
+}
+
+/* Table Specific Styles (Inspired by image) */
+table {
+    border-radius: 12px; /* More rounded corners for the entire table */
+    overflow: hidden; /* Ensures content respects border-radius */
+    border: 1px solid #ddd; /* Subtle border around the table */
+}
+
+th {
+    /* Default header background from dark-blue, but you can override with classes */
+    background-color: var(--dark-blue); 
+    color: var(--white);
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Separator between header and first row */
+}
+
+/* Specific header colors from the image */
+th.player-header {
+    background-color: var(--header-orange); /* Orange for Player header */
+}
+
+th.matches-header {
+    background-color: var(--header-green); /* Green for Matches Played header */
+}
+
+th.ga-header {
+    background-color: var(--header-orange); /* Orange for G/A header */
+}
+
+th.rating-header {
+    background-color: var(--header-green); /* Green for Average Match Rating header */
+}
+
+
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--row-alt-grey); /* Lighter border between rows */
+    font-size: 1.1em;
+    white-space: nowrap;
+    background-color: var(--white); /* Default background for cells */
+}
+
+/* Alternating row colors for table body */
+tbody tr:nth-child(odd) {
+    background-color: var(--white); /* White for odd rows */
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--row-alt-grey); /* Light grey for even rows */
+}
+
+/* Hover effect for table rows */
+tbody tr:hover {
+    background-color: #e0e0e0; /* Slightly darker grey on hover */
+    cursor: pointer;
 }
