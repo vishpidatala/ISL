@@ -3,7 +3,7 @@ body {
   background: linear-gradient(to bottom, #f4f4f4, #e9f5e9);
   margin: 0;
   padding: 0;
-  color: #222;
+  color: #333;
 }
 
 .container {
@@ -28,6 +28,7 @@ body {
 h1 {
   margin: 0;
   color: #2d6a4f;
+  font-weight: 600;
 }
 
 .nav-button {
@@ -51,19 +52,22 @@ table {
 }
 
 th {
-  background: #ffa94d;
-  color: white;
   text-align: left;
   padding: 12px;
+  color: white;
   font-weight: bold;
 }
 
+th:nth-child(1) {
+  background-color: #ffa94d; /* Orange */
+}
+
 th:nth-child(2) {
-  background: #40916c;
+  background-color: #52b788; /* Green */
 }
 
 th:nth-child(3) {
-  background: #ffa94d;
+  background-color: #ffa94d; /* Orange */
 }
 
 td {
@@ -79,38 +83,15 @@ tr:nth-child(odd) {
   background-color: #e8f5e9;
 }
 
+#loading-message {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+}
+
 .credit-text {
   font-size: 13px;
   text-align: center;
   margin-top: 10px;
   color: #000;
-}
-
-/* Crown styles */
-.crown {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  margin-right: 6px;
-  vertical-align: middle;
-  animation: spin 2s linear infinite;
-}
-
-.gold {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/2583/2583313.png');
-}
-
-.silver {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/2583/2583314.png');
-}
-
-.bronze {
-  background-image: url('https://cdn-icons-png.flaticon.com/512/2583/2583315.png');
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
