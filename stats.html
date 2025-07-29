@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ISL Player Stats</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/png" href="logo.png" />
 </head>
 <body>
   <div class="credit-text">Made by Vishruth Pidatala</div>
+
   <div class="container">
     <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
 
@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody id="stats-table-body">
-          <!-- Filled by script -->
+          <!-- Dynamically filled -->
         </tbody>
       </table>
     </div>
@@ -36,47 +36,45 @@
   </div>
 
   <script>
-    const URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
+    const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
 
-    async function loadStats() {
-      const tableBody = document.getElementById("stats-table-body");
-      const loadingMessage = document.getElementById("loading-message");
+    async function loadPlayerStats() {
+      const tableBody = document.getElementById('stats-table-body');
+      const loadingMessage = document.getElementById('loading-message');
 
-      tableBody.innerHTML = "";
-      loadingMessage.style.display = "block";
+      tableBody.innerHTML = '';
+      loadingMessage.style.display = 'block';
 
       try {
-        const res = await fetch(URL);
-        if (!res.ok) throw new Error("Failed to fetch data.");
-        const players = await res.json();
+        const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-        // Sort by G/A
-        players.sort((a, b) => Number(b["G/A"]) - Number(a["G/A"]));
+        const players = await response.json();
 
-        players.forEach((player, index) => {
-          const row = document.createElement("tr");
+        if (!Array.isArray(players) || players.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No player stats found.</td></tr>`;
+          return;
+        }
 
-          let crown = "";
-          if (index === 0) crown = '<span class="crown gold"></span>';
-          else if (index === 1) crown = '<span class="crown silver"></span>';
-          else if (index === 2) crown = '<span class="crown bronze"></span>';
-
+        // No sorting — keep order as in sheet
+        players.forEach(player => {
+          const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${crown} ${player.Player}</td>
-            <td>${player['Matches Played']}</td>
-            <td>${player['G/A']}</td>
+            <td>${player['Player'] ?? ''}</td>
+            <td>${player['Matches Played'] ?? ''}</td>
+            <td>${player['G/A'] ?? ''}</td>
           `;
           tableBody.appendChild(row);
         });
 
-      } catch (err) {
-        tableBody.innerHTML = `<tr><td colspan="3" style="color:red;text-align:center;">Error: ${err.message}</td></tr>`;
+      } catch (error) {
+        tableBody.innerHTML = `<tr><td colspan="3" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
       } finally {
-        loadingMessage.style.display = "none";
+        loadingMessage.style.display = 'none';
       }
     }
 
-    document.addEventListener("DOMContentLoaded", loadStats);
+    document.addEventListener('DOMContentLoaded', loadPlayerStats);
   </script>
 </body>
 </html>
