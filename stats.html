@@ -7,8 +7,11 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="credit-text">Made by Vishruth Pidatala</div>
+
   <div class="container">
     <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
+
     <div class="header">
       <img src="logo.png" alt="ISL Logo" />
       <h1>Player Stats</h1>
@@ -18,9 +21,9 @@
       <table>
         <thead>
           <tr>
-            <th>Player</th>
-            <th>Matches Played</th>
-            <th>G/A</th>
+            <th class="green-header">Player</th>
+            <th class="orange-header">Matches Played</th>
+            <th class="green-header">G/A</th>
           </tr>
         </thead>
         <tbody id="stats-table-body"></tbody>
@@ -28,7 +31,6 @@
     </div>
 
     <div id="loading-message">Loading stats...</div>
-    <div class="credit-text">Made by Vishruth Pidatala</div>
   </div>
 
   <script>
@@ -42,31 +44,31 @@
 
       try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const players = await response.json();
 
-        // Sort players by G/A (assumed numeric)
-        players.sort((a, b) => Number(b["G/A"]) - Number(a["G/A"]));
+        if (players.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No player stats found.</td></tr>`;
+          return;
+        }
 
-        const crownEmojis = [
-          '<span class="crown gold"></span>',
-          '<span class="crown silver"></span>',
-          '<span class="crown bronze"></span>'
-        ];
+        // Sort by G/A (descending)
+        players.sort((a, b) => (parseFloat(b['G/A']) || 0) - (parseFloat(a['G/A']) || 0));
+
+        const crownEmojis = ['👑', '🥈', '🥉'];
 
         players.forEach((player, index) => {
           const row = document.createElement('tr');
-
-          const crown = index < 3 ? crownEmojis[index] : '';
-
+          const crown = crownEmojis[index] || '';
           row.innerHTML = `
-            <td>${crown}${player.Player}</td>
-            <td>${player["Matches Played"]}</td>
-            <td>${player["G/A"]}</td>
+            <td>${crown} ${player.Player}</td>
+            <td>${player['Matches Played']}</td>
+            <td>${player['G/A']}</td>
           `;
           tableBody.appendChild(row);
         });
       } catch (error) {
-        tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:red;">Failed to load stats: ${error.message}</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="3" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
       } finally {
         loadingMessage.style.display = 'none';
       }
