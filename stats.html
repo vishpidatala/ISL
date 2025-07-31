@@ -37,7 +37,7 @@
   </div>
 
   <script>
-    const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'YOUR_SCRIPT_URL_HERE';
+    const GOOGLE_APPS_SCRIPT_WEB_APP_URL = '';
 
     async function loadPlayerStats() {
       const tableBody = document.getElementById('stats-table-body');
@@ -46,7 +46,7 @@
       tableBody.innerHTML = '';
 
       try {
-        const res = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+        const res = await fetch(https://script.google.com/macros/s/AKfycbxcm5u6Yk5Nb_aC67iKdm6TnM3wovjTsdMr6agZf8DK9H0L3dpV77SAEegYqqsVDOZR/exec);
         const players = await res.json();
 
         players.forEach(p => {
