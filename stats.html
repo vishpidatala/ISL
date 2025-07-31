@@ -21,13 +21,15 @@
       <table>
         <thead>
           <tr>
-            <th class="green-header">Player</th>
-            <th class="orange-header">Matches Played</th>
-            <th class="green-header">G/A</th>
-            <th class="orange-header">G/A Per Game</th>
+            <th class="green">👤 Player</th>
+            <th class="orange">📅 Matches Played</th>
+            <th class="green">⚽ G/A</th>
+            <th class="orange">📊 G/A Per Game</th>
           </tr>
         </thead>
-        <tbody id="stats-table-body"></tbody>
+        <tbody id="stats-table-body">
+          <!-- Dynamic Data -->
+        </tbody>
       </table>
     </div>
 
@@ -35,42 +37,42 @@
   </div>
 
   <script>
-    const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
+    const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'YOUR_SCRIPT_URL_HERE';
 
     async function loadPlayerStats() {
       const tableBody = document.getElementById('stats-table-body');
       const loadingMessage = document.getElementById('loading-message');
-      tableBody.innerHTML = '';
       loadingMessage.style.display = 'block';
+      tableBody.innerHTML = '';
 
       try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const players = await response.json();
+        const res = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+        const players = await res.json();
 
-        if (players.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No player stats found.</td></tr>`;
-          return;
-        }
+        players.forEach(p => {
+          const gaPerGame = (p['G/A'] / p['Matches Played']).toFixed(2);
+          p.GAPerGame = parseFloat(gaPerGame);
+        });
 
-        // Sort by G/A (descending)
-        players.sort((a, b) => (parseFloat(b['G/A']) || 0) - (parseFloat(a['G/A']) || 0));
-
-        const crownEmojis = ['👑', '🥈', '🥉'];
+        players.sort((a, b) => b.GAPerGame - a.GAPerGame);
 
         players.forEach((player, index) => {
+          let crown = '';
+          if (index === 0) crown = '🥇 ';
+          else if (index === 1) crown = '🥈 ';
+          else if (index === 2) crown = '🥉 ';
+
           const row = document.createElement('tr');
-          const crown = crownEmojis[index] || '';
           row.innerHTML = `
-            <td>${crown} ${player.Player}</td>
+            <td>${crown}${player.Player}</td>
             <td>${player['Matches Played']}</td>
             <td>${player['G/A']}</td>
-            <td>${player{'G/A Per Game]}</td>
+            <td>${player.GAPerGame}</td>
           `;
           tableBody.appendChild(row);
         });
-      } catch (error) {
-        tableBody.innerHTML = `<tr><td colspan="3" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
+      } catch (err) {
+        tableBody.innerHTML = `<tr><td colspan="4" style="color:red;">Failed to load stats.</td></tr>`;
       } finally {
         loadingMessage.style.display = 'none';
       }
