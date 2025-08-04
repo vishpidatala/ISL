@@ -94,3 +94,24 @@ tr:nth-child(odd) {
   color: black;
   padding-top: 15px;
 }
+.message-bubble {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #333;
+  border-radius: 20px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.message-bubble:hover {
+  background-color: rgba(240, 240, 240, 0.95);
+  transform: scale(1.05);
+}
+
