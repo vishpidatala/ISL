@@ -1,62 +1,170 @@
-// Replace with your Google Script URLs
-const SCRIPT_URLS = {
-  season1: "https://script.google.com/macros/s/AKfycbx81I3wTiNT4n_Zfh41lhDZZ3tYZ05Cu_WnrGYPyj0HjBQrvZUg4NGSZTANgFMjUyJC/exec",
-  season2: "https://script.google.com/macros/s/AKfycbxW-kbQgxuHkPMMNQy2P6xB2c82OSUA3BkDUHqmYuUeZKtHTORMfh3TLKbSUjsP-4mR/exec"
-};
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISL Stats</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fdfdfd;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
 
-// Load stats from Google Sheets
-async function loadStats(season) {
-  document.getElementById("loading-message").style.display = "block";
-  try {
-    const response = await fetch(SCRIPT_URLS[season]);
-    const data = await response.json();
-    renderTable(data);
-  } catch (error) {
-    console.error("Fetch error:", error);
-    alert("Failed to load stats.");
-  } finally {
-    document.getElementById("loading-message").style.display = "none";
-  }
-}
+    h1.season-label {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #1a1a1a;
+    }
 
-// Render the stats table
-function renderTable(data) {
-  const tableBody = document.querySelector("#stats-table tbody");
-  tableBody.innerHTML = "";
+    .season-switch {
+      margin-bottom: 20px;
+    }
 
-  // Sort by G/A Per Game
-  data.sort((a, b) => b.ga - a.ga);
+    select {
+      padding: 6px 12px;
+      font-size: 1em;
+      border: 2px solid #ff9933;
+      border-radius: 5px;
+      background: #fff;
+    }
 
-  data.forEach((row, index) => {
-    const tr = document.createElement("tr");
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      font-size: 1.1em;
+    }
 
-    // Crowns for top 3
-    let crown = "";
-    if (index === 0) crown = "👑";       // Gold
-    else if (index === 1) crown = "🥈";  // Silver
-    else if (index === 2) crown = "🥉";  // Bronze
+    thead th {
+      padding: 12px;
+      color: white;
+    }
 
-    tr.innerHTML = `
-      <td>${crown} ${row.player}</td>
-      <td>${row.matches}</td>
-      <td>${row.ga}</td>
-    `;
+    thead th:nth-child(1) {
+      background-color: #138808; /* green */
+    }
 
-    tableBody.appendChild(tr);
-  });
-}
+    thead th:nth-child(2) {
+      background-color: #ff9933; /* orange */
+    }
 
-// Handle season switch
-document.getElementById("seasonSelect").addEventListener("change", (e) => {
-  loadStats(e.target.value);
-  updateSeasonLabel(e.target.value);
-});
+    thead th:nth-child(3) {
+      background-color: #138808; /* green */
+    }
 
-function updateSeasonLabel(season) {
-  const label = document.querySelector(".season-label");
-  label.textContent = season === "season2" ? "Season 2" : "Season 1";
-}
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
 
-// Default load Season 2
-loadStats("season2");
-updateSeasonLabel("season2");
+    tbody tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+
+    td {
+      padding: 12px;
+      border: 1px solid #ddd;
+    }
+
+    /* Crowns animation */
+    .crown {
+      display: inline-block;
+      animation: spin 3s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="season-label">Season 2</h1>
+
+  <div class="season-switch">
+    <label for="seasonSelect">Select Season:</label>
+    <select id="seasonSelect">
+      <option value="season2" selected>Season 2</option>
+      <option value="season1">Season 1</option>
+    </select>
+  </div>
+
+  <div id="loading-message" style="display:none;">Loading stats...</div>
+
+  <table id="stats-table">
+    <thead>
+      <tr>
+        <th>Player Name</th>
+        <th>Matches</th>
+        <th>G/A Per Game</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // Replace with your Google Script URLs
+    const SCRIPT_URLS = {
+      season1: "https://script.google.com/macros/s/AKfycbx81I3wTiNT4n_Zfh41lhDZZ3tYZ05Cu_WnrGYPyj0HjBQrvZUg4NGSZTANgFMjUyJC/exec",
+      season2: "https://script.google.com/macros/s/AKfycbxW-kbQgxuHkPMMNQy2P6xB2c82OSUA3BkDUHqmYuUeZKtHTORMfh3TLKbSUjsP-4mR/exec"
+    };
+
+    async function loadStats(season) {
+      document.getElementById("loading-message").style.display = "block";
+      try {
+        const response = await fetch(SCRIPT_URLS[season]);
+        const data = await response.json();
+        renderTable(data);
+      } catch (error) {
+        console.error("Fetch error:", error);
+        alert("Failed to load stats.");
+      } finally {
+        document.getElementById("loading-message").style.display = "none";
+      }
+    }
+
+    function renderTable(data) {
+      const tableBody = document.querySelector("#stats-table tbody");
+      tableBody.innerHTML = "";
+
+      // Sort by G/A Per Game
+      data.sort((a, b) => b.ga - a.ga);
+
+      data.forEach((row, index) => {
+        const tr = document.createElement("tr");
+
+        // Crowns for top 3
+        let crown = "";
+        if (index === 0) crown = '<span class="crown">👑</span>';   // Gold
+        else if (index === 1) crown = '<span class="crown">🥈</span>'; 
+        else if (index === 2) crown = '<span class="crown">🥉</span>';
+
+        tr.innerHTML = `
+          <td>${crown} ${row.player}</td>
+          <td>${row.matches}</td>
+          <td>${row.ga}</td>
+        `;
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    document.getElementById("seasonSelect").addEventListener("change", (e) => {
+      loadStats(e.target.value);
+      updateSeasonLabel(e.target.value);
+    });
+
+    function updateSeasonLabel(season) {
+      const label = document.querySelector(".season-label");
+      label.textContent = season === "season2" ? "Season 2" : "Season 1";
+    }
+
+    // Default load Season 2
+    loadStats("season2");
+    updateSeasonLabel("season2");
+  </script>
+</body>
+</html>
