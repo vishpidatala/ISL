@@ -1,100 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ISL Player Stats</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Soccer League (ISL)</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
+    <header>
+        <h1>Indian Soccer League</h1>
+    </header>
 
-    <div class="header">
-      <img src="logo.png" alt="ISL Logo" class="logo" />
-      <h1>Player Stats</h1>
-    </div>
+    <main>
+        <section id="leaderboard">
+            <h2>Player Stats Leaderboard</h2>
+            <table id="statsTable">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>G/A Per Game</th>
+                        <th>Matches Played</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Stats will be populated by script -->
+                </tbody>
+            </table>
+        </section>
+    </main>
 
-    <!-- Dropdown for Seasons -->
-    <div class="season-select">
-      <label for="season">Select Season:</label>
-      <select id="season">
-        <option value="2" selected>Season 2</option>
-        <option value="1">Season 1</option>
-      </select>
-    </div>
+    <footer>
+        <p>&copy; 2025 Indian Soccer League</p>
+    </footer>
 
-    <div class="table-responsive">
-      <table>
-        <thead>
-          <tr>
-            <th class="green-header">Player</th>
-            <th class="orange-header">Matches Played</th>
-            <th class="green-header">G/A</th>
-          </tr>
-        </thead>
-        <tbody id="stats-table-body"></tbody>
-      </table>
-    </div>
-
-    <div id="loading-message">Loading stats...</div>
-  </div>
-
-  <script>
-    // Replace with your actual Apps Script URLs for Season 1 and 2
-    const SEASON_URLS = {
-      1: "https://script.google.com/macros/s/SEASON1_URL/exec",
-      2: "https://script.google.com/macros/s/SEASON2_URL/exec"
-    };
-
-    async function loadPlayerStats(season) {
-      const tableBody = document.getElementById("stats-table-body");
-      const loadingMessage = document.getElementById("loading-message");
-
-      tableBody.innerHTML = "";
-      loadingMessage.style.display = "block";
-
-      try {
-        const response = await fetch(SEASON_URLS[season]);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
-        const players = await response.json();
-
-        if (players.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No player stats found.</td></tr>`;
-          return;
-        }
-
-        // Sort by G/A (descending)
-        players.sort((a, b) => (parseFloat(b["G/A"]) || 0) - (parseFloat(a["G/A"]) || 0));
-
-        players.forEach((player, index) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>
-              ${player.Player}
-              ${index === 0 ? " 👑" : index === 1 ? " 👑" : index === 2 ? " 👑" : ""}
-            </td>
-            <td>${player["Matches Played"]}</td>
-            <td>${player["G/A"]}</td>
-          `;
-          tableBody.appendChild(row);
-        });
-      } catch (error) {
-        tableBody.innerHTML = `<tr><td colspan="3" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
-      } finally {
-        loadingMessage.style.display = "none";
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const seasonSelect = document.getElementById("season");
-      loadPlayerStats(seasonSelect.value);
-
-      seasonSelect.addEventListener("change", () => {
-        loadPlayerStats(seasonSelect.value);
-      });
-    });
-  </script>
+    <script src="stats.js"></script>
 </body>
 </html>
