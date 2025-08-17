@@ -1,100 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ISL Player Stats</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="container">
-    <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
+// Replace with your Google Script URLs
+const SCRIPT_URLS = {
+  season1: "https://script.google.com/macros/s/AKfycbx81I3wTiNT4n_Zfh41lhDZZ3tYZ05Cu_WnrGYPyj0HjBQrvZUg4NGSZTANgFMjUyJC/exec",
+  season2: "https://script.google.com/macros/s/AKfycbxW-kbQgxuHkPMMNQy2P6xB2c82OSUA3BkDUHqmYuUeZKtHTORMfh3TLKbSUjsP-4mR/exec"
+};
 
-    <div class="header">
-      <img src="logo.png" alt="ISL Logo" class="logo" />
-      <h1>Player Stats</h1>
-    </div>
+// Load stats from Google Sheets
+async function loadStats(season) {
+  document.getElementById("loading-message").style.display = "block";
+  try {
+    const response = await fetch(SCRIPT_URLS[season]);
+    const data = await response.json();
+    renderTable(data);
+  } catch (error) {
+    console.error("Fetch error:", error);
+    alert("Failed to load stats.");
+  } finally {
+    document.getElementById("loading-message").style.display = "none";
+  }
+}
 
-    <!-- Dropdown for Seasons -->
-    <div class="season-select">
-      <label for="season">Select Season:</label>
-      <select id="season">
-        <option value="2" selected>Season 2</option>
-        <option value="1">Season 1</option>
-      </select>
-    </div>
+// Render the stats table
+function renderTable(data) {
+  const tableBody = document.querySelector("#stats-table tbody");
+  tableBody.innerHTML = "";
 
-    <div class="table-responsive">
-      <table>
-        <thead>
-          <tr>
-            <th class="green-header">Player</th>
-            <th class="orange-header">Matches Played</th>
-            <th class="green-header">G/A</th>
-          </tr>
-        </thead>
-        <tbody id="stats-table-body"></tbody>
-      </table>
-    </div>
+  // Sort by G/A Per Game
+  data.sort((a, b) => b.ga - a.ga);
 
-    <div id="loading-message">Loading stats...</div>
-  </div>
+  data.forEach((row, index) => {
+    const tr = document.createElement("tr");
 
-  <script>
-    // Replace with your actual Apps Script URLs for Season 1 and 2
-    const SEASON_URLS = {
-      1: "https://script.google.com/macros/s/SEASON1_URL/exec",
-      2: "https://script.google.com/macros/s/SEASON2_URL/exec"
-    };
+    // Crowns for top 3
+    let crown = "";
+    if (index === 0) crown = "👑";       // Gold
+    else if (index === 1) crown = "🥈";  // Silver
+    else if (index === 2) crown = "🥉";  // Bronze
 
-    async function loadPlayerStats(season) {
-      const tableBody = document.getElementById("stats-table-body");
-      const loadingMessage = document.getElementById("loading-message");
+    tr.innerHTML = `
+      <td>${crown} ${row.player}</td>
+      <td>${row.matches}</td>
+      <td>${row.ga}</td>
+    `;
 
-      tableBody.innerHTML = "";
-      loadingMessage.style.display = "block";
+    tableBody.appendChild(tr);
+  });
+}
 
-      try {
-        const response = await fetch(SEASON_URLS[season]);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+// Handle season switch
+document.getElementById("seasonSelect").addEventListener("change", (e) => {
+  loadStats(e.target.value);
+  updateSeasonLabel(e.target.value);
+});
 
-        const players = await response.json();
+function updateSeasonLabel(season) {
+  const label = document.querySelector(".season-label");
+  label.textContent = season === "season2" ? "Season 2" : "Season 1";
+}
 
-        if (players.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No player stats found.</td></tr>`;
-          return;
-        }
-
-        // Sort by G/A (descending)
-        players.sort((a, b) => (parseFloat(b["G/A"]) || 0) - (parseFloat(a["G/A"]) || 0));
-
-        players.forEach((player, index) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>
-              ${player.Player}
-              ${index === 0 ? " 👑" : index === 1 ? " 👑" : index === 2 ? " 👑" : ""}
-            </td>
-            <td>${player["Matches Played"]}</td>
-            <td>${player["G/A"]}</td>
-          `;
-          tableBody.appendChild(row);
-        });
-      } catch (error) {
-        tableBody.innerHTML = `<tr><td colspan="3" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
-      } finally {
-        loadingMessage.style.display = "none";
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const seasonSelect = document.getElementById("season");
-      loadPlayerStats(seasonSelect.value);
-
-      seasonSelect.addEventListener("change", () => {
-        loadPlayerStats(seasonSelect.value);
-      });
-    });
-  </script>
-</body>
-</html>
+// Default load Season 2
+loadStats("season2");
+updateSeasonLabel("season2");
