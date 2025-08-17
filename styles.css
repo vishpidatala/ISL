@@ -1,90 +1,119 @@
-/* Global Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
     margin: 0;
     padding: 0;
-    background: #f9f9f9;
-    color: #333;
 }
 
-header {
-    background: #28a745; /* Green header */
-    color: white;
-    text-align: center;
-    padding: 20px 0;
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
 }
 
-h1, h2 {
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.header img {
+    width: 50px;
+    height: 50px;
+}
+
+.header h1 {
+    font-size: 28px;
     margin: 0;
 }
 
-main {
-    padding: 20px;
-    text-align: center;
-}
-
-a.btn {
+.nav-button {
     display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #28a745;
+    margin-bottom: 15px;
+    padding: 8px 12px;
+    background-color: #28a745;
     color: white;
     text-decoration: none;
     border-radius: 5px;
 }
 
-a.btn:hover {
-    background: #218838;
+.table-responsive {
+    overflow-x: auto;
 }
 
-/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
-thead th {
-    background-color: #28a745; /* Green header */
-    color: white;
-    padding: 10px;
+th {
+    padding: 12px;
     text-align: left;
+    font-size: 18px;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f2f2f2; /* Striped rows */
+.green {
+    background-color: #d6f5d6;
 }
 
-tbody tr:nth-child(odd) {
-    background-color: #fff;
+.orange {
+    background-color: #ffe0b3;
 }
 
-tbody td {
-    padding: 10px;
+td {
+    padding: 12px;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
 }
 
-/* Top 3 crowns */
-.rank-1 td:first-child::before {
-    content: "👑 ";
-}
-.rank-2 td:first-child::before {
-    content: "🥈 ";
-}
-.rank-3 td:first-child::before {
-    content: "🥉 ";
+tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-/* Footer */
-footer {
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.crown {
+    font-size: 18px;
+    margin-right: 4px;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.top-1 td {
+    font-weight: bold;
+    color: #daa520;
+}
+
+.top-2 td {
+    font-weight: bold;
+    color: #c0c0c0;
+}
+
+.top-3 td {
+    font-weight: bold;
+    color: #cd7f32;
+}
+
+#loading-message {
+    margin-top: 20px;
+    font-style: italic;
     text-align: center;
-    padding: 15px;
-    background: #28a745;
-    color: white;
-    margin-top: 40px;
 }
 
+.credit-text {
+    font-size: 14px;
+    text-align: center;
+    color: black;
+    margin-top: 30px;
+}
 
-
-
-
-
+    
