@@ -1,46 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ISL Player Stats</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="logo.png" type="image/png" />
 </head>
 <body>
-    <header>
-        <h1>Indian Soccer League</h1>
-    </header>
+    <div class="credit-text">Made by Vishruth Pidatala</div>
 
-    <main>
-        <section id="leaderboard">
-            <h2>Player Stats Leaderboard</h2>
-            <table id="statsTable">
+    <div class="container">
+        <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
+        <div class="header">
+            <img src="logo.png" alt="ISL Logo" />
+            <h1>Player Stats</h1>
+        </div>
+
+        <div class="table-responsive">
+            <table>
                 <thead>
                     <tr>
-                        <th>Rank</th>
-                        <th>Player</th>
-                        <th>Team</th>
-                        <th>G/A Per Game</th>
-                        <th>Matches Played</th>
+                        <th class="green">👑 Player</th>
+                        <th class="orange">Matches Played</th>
+                        <th class="green">G/A Per Game</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Stats populated by stats.js -->
-                </tbody>
+                <tbody id="stats-table-body"></tbody>
             </table>
-            <a href="index.html" class="btn">Back to Home</a>
-        </section>
-    </main>
+        </div>
 
-    <footer>
-        <p>&copy; 2025 Indian Soccer League</p>
-    </footer>
+        <div id="loading-message">Loading stats...</div>
+    </div>
 
-    <script src="stats.js"></script>
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx81I3wTiNT4n_Zfh41lhDZZ3tYZ05Cu_WnrGYPyj0HjBQrvZUg4NGSZTANgFMjUyJC/exec';
+
+        async function loadStats() {
+            const tbody = document.getElementById('stats-table-body');
+            const loading = document.getElementById('loading-message');
+            tbody.innerHTML = '';
+            loading.style.display = 'block';
+
+            try {
+                const res = await fetch(SCRIPT_URL);
+                const players = await res.json();
+
+                players.sort((a, b) => (parseFloat(b['G/A Per Game']) || 0) - (parseFloat(a['G/A Per Game']) || 0));
+
+                players.forEach((player, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${getCrown(index)} ${player.Player}</td>
+                        <td>${player['Matches Played']}</td>
+                        <td>${player['G/A Per Game']}</td>
+                    `;
+                    if (index < 3) row.classList.add(`top-${index + 1}`);
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="3" style="color:red;">Error loading stats</td></tr>`;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function getCrown(index) {
+            const crowns = ['👑', '🥈', '🥉'];
+            return index < 3 ? `<span class="crown crown-${index + 1}">${crowns[index]}</span>` : '';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadStats);
+    </script>
 </body>
 </html>
-
-
-
-
 
