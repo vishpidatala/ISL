@@ -1,136 +1,101 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #ffffff;
-  color: #222;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
+  color: #222;
 }
 
 .container {
   max-width: 900px;
-  margin: 40px auto;
+  margin: 20px auto;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
+  text-align: center;
 }
 
 .header {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
-.header img {
-  height: 80px;
+.logo {
+  height: 70px;
 }
 
-.header h1 {
-  margin: 10px 0;
-  font-size: 2em;
-  color: #333;
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #222;
+}
+
+.nav-buttons {
+  margin: 20px 0;
 }
 
 .nav-button {
   display: inline-block;
-  margin-bottom: 20px;
-  padding: 10px 15px;
+  padding: 10px 18px;
+  margin: 5px;
+  font-size: 16px;
+  color: white;
+  background-color: #28a745;
   text-decoration: none;
-  background-color: #f4f4f4;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  color: #333;
-  transition: background-color 0.2s;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
 .nav-button:hover {
-  background-color: #e0e0e0;
+  background-color: #218838;
+}
+
+.table-responsive {
+  margin-top: 20px;
+  overflow-x: auto;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1.1em;
+  margin: 0 auto;
 }
 
-th {
-  text-align: left;
+th, td {
   padding: 12px;
-  font-weight: 600;
-  border-bottom: 2px solid #ddd;
+  border: 1px solid #ddd;
+  text-align: center;
 }
 
 .green-header {
-  background-color: #d9fdd3;
-  color: #1e4620;
+  background-color: #28a745;
+  color: white;
 }
 
 .orange-header {
-  background-color: #ffe6cc;
-  color: #663c00;
-}
-
-td {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
+  background-color: #ff6600;
+  color: white;
 }
 
 tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-tr:nth-child(odd) {
-  background-color: #ffffff;
+  background-color: #f2f2f2;
 }
 
 #loading-message {
-  text-align: center;
-  color: #888;
-  padding: 20px 0;
-}
-
-.credit-text {
-  text-align: center;
-  font-size: 0.9em;
-  color: black;
-  padding-top: 15px;
-}
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 20px;
-}
-
-.header img.isl-logo {
-    width: 80px;
-    height: auto;
-}
-
-.header-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.message-bubble {
-  display: inline-block;
-  background-color: rgba(255, 255, 255, 0.85);
-  color: #333;
-  border-radius: 20px;
-  padding: 12px 20px;
+  margin-top: 15px;
   font-size: 16px;
-  font-family: 'Arial', sans-serif;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #555;
+}
+
+/* Season Label */
+.season-label {
   position: absolute;
-  bottom: 30px;
-  left: 30px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  font-size: 80px;
+  font-weight: bold;
+  color: rgba(0, 128, 0, 0.1);
+  pointer-events: none;
+  user-select: none;
 }
-
-.message-bubble:hover {
-  background-color: rgba(240, 240, 240, 0.95);
-  transform: scale(1.05);
-}
-
