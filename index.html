@@ -1,124 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to the ISL</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
-    <!-- Favicon link -->
-    <link rel="icon" type="image/png" href="logo.png">
-    <style>
-        /* Specific styles for the landing page */
-        body {
-            /* Ensures content is centered on the landing page */
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Ensure full viewport height for centering */
-            padding: 20px; /* Add overall body padding for small screens */
-            box-sizing: border-box; /* Include padding in element's total width and height */
-        }
-        .welcome-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Center items horizontally */
-            justify-content: center; /* Center items vertically if enough space */
-            text-align: center;
-            max-width: 600px; /* Limit content width */
-            width: 100%; /* Ensure it takes full width on small screens */
-            margin: auto; /* Center the content block itself */
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .welcome-content img {
-            max-width: 200px; /* Adjust logo size as needed */
-            height: auto;
-            margin-bottom: 30px; /* Space below the logo */
-            border-radius: 8px; /* Consistent rounded corners */
-        }
-
-        .welcome-message {
-            font-size: 2.5em; /* Large, bold welcome text */
-            font-weight: 800;
-            color: var(--dark-blue);
-            margin-bottom: 40px; /* Space below the welcome message */
-            line-height: 1.2;
-        }
-
-        /* Responsive adjustments for welcome page */
-        @media (max-width: 768px) {
-            .welcome-message {
-                font-size: 1.8em;
-            }
-            .welcome-content img {
-                max-width: 150px;
-            }
-            .stat-button {
-                font-size: 1.4em; /* Adjust button size for mobile */
-                padding: 12px 20px;
-            }
-        }
-
-        /* Styling for the credit text */
-        .credit-text {
-            /* Removed width: 100% to prevent it from spanning the entire page width */
-            text-align: right; /* Align text to the right */
-            position: absolute; /* Position relative to the viewport */
-            top: 10px; /* 10px from the top */
-            right: 10px; /* 10px from the right */
-            left: auto; /* Ensure it doesn't stretch from left */
-            font-size: 0.9em; /* Smaller font size */
-            color: var(--dark-blue); /* Use the dark blue for consistency */
-            padding: 10px; /* Some padding around the text */
-            box-sizing: border-box; /* Include padding in width calculation */
-            z-index: 10; /* Ensure it's above other content */
-            white-space: nowrap; /* Prevent text wrapping if it's too long for its small space */
-        }
-
-        @media (max-width: 768px) {
-            .credit-text {
-                font-size: 0.7em; /* Even smaller on mobile */
-                top: 5px;
-                right: 5px;
-                text-align: center; /* Center on small screens to prevent overflow */
-                position: relative; /* Change to relative on small screens to flow with content */
-                margin-bottom: 10px; /* Add space if it's relative */
-            }
-            body {
-                flex-direction: column; /* Stack items vertically on small screens */
-                justify-content: flex-start; /* Align to top when stacked */
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISL - Season 2</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="credit-text">
-        Made by Vishruth Pidatala
+  <div class="container">
+    <div class="header">
+      <img src="logo.png" alt="ISL Logo" class="logo" />
+      <h1>Welcome to ISL</h1>
     </div>
-    <div class="container welcome-content">
-        <!-- Logo for the welcome page -->
-        <img src="logo.png" alt="ISL Logo">
 
-        <!-- Welcome message -->
-        <h1 class="welcome-message">Welcome to the ISL</h1> 
-         
-       
+    <!-- Season 2 Watermark -->
+    <div class="season-label">Season 2</div>
 
-        <!-- Button to go to the stats page -->
-       <a href="stats.html" class="nav-button">Go to Statpage</a>
+    <div class="nav-buttons">
+      <a href="stats.html" class="nav-button">View Player Stats</a>
     </div>
+  </div>
 </body>
 </html>
-<a href="stats.html" class="message-bubble">
-  💬 Ollie is the Goat  – <strong>Ollie</strong>
-</a>
-
-
-
-
-
-
-
-
-
