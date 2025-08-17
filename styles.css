@@ -1,17 +1,18 @@
 /* General page style */
 body {
-  font-family: "Segoe UI", Arial, sans-serif; /* one clean modern font everywhere */
+  font-family: "Segoe UI", Arial, sans-serif;
   background-color: #ffffff;
   margin: 0;
   padding: 0;
   color: #222;
   text-align: center;
+  line-height: 1.6;
 }
 
 /* Container */
 .container {
   max-width: 1000px;
-  margin: 30px auto;
+  margin: 50px auto;
   padding: 20px;
 }
 
@@ -20,31 +21,31 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 15px;
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
 .logo {
-  height: 70px;
+  height: 80px;
 }
 
 h1 {
   margin: 0;
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: bold;
   color: #222;
 }
 
 /* Nav buttons */
 .nav-buttons {
-  margin: 20px 0;
+  margin: 30px 0;
 }
 
 .nav-button {
   display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 15px;
+  padding: 12px 24px;
+  margin: 10px;
+  font-size: 16px;
   font-weight: 500;
   color: white;
   background-color: #28a745; /* Indian green */
@@ -59,7 +60,7 @@ h1 {
 
 /* Table */
 .table-responsive {
-  margin-top: 20px;
+  margin-top: 30px;
   overflow-x: auto;
 }
 
@@ -67,4 +68,92 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin: 0 auto;
-  font-size: 15
+  font-size: 16px;
+}
+
+th, td {
+  padding: 14px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* Alternating green + orange headers */
+th:nth-child(odd) {
+  background-color: #28a745;
+  color: #fff;
+}
+th:nth-child(even) {
+  background-color: #ff6600;
+  color: #fff;
+}
+
+/* Clean striped rows */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+/* Extra spacing between rows */
+tr {
+  height: 50px;
+}
+
+/* Top 3 crowns + animation */
+tr:nth-child(1) td:first-child::before {
+  content: "👑 ";
+  color: gold;
+  animation: spin 3s linear infinite;
+}
+tr:nth-child(2) td:first-child::before {
+  content: "👑 ";
+  color: silver;
+  animation: spin 3s linear infinite;
+}
+tr:nth-child(3) td:first-child::before {
+  content: "👑 ";
+  color: #cd7f32;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); display: inline-block; }
+  100% { transform: rotate(360deg); display: inline-block; }
+}
+
+/* Loading message */
+#loading-message {
+  margin-top: 20px;
+  font-size: 17px;
+  color: #555;
+}
+
+/* Season watermark */
+.season-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  font-size: 100px;
+  font-weight: bold;
+  color: rgba(0, 128, 0, 0.07);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Season dropdown */
+.season-select {
+  margin: 30px 0;
+  font-size: 17px;
+}
+.season-select label {
+  margin-right: 12px;
+  font-weight: bold;
+}
+.season-select select {
+  padding: 6px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
