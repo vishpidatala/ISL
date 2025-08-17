@@ -7,14 +7,21 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="credit-text">Made by Vishruth Pidatala</div>
-
   <div class="container">
     <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
 
     <div class="header">
-      <img src="logo.png" alt="ISL Logo" />
+      <img src="logo.png" alt="ISL Logo" class="logo" />
       <h1>Player Stats</h1>
+    </div>
+
+    <!-- Dropdown for Seasons -->
+    <div class="season-select">
+      <label for="season">Select Season:</label>
+      <select id="season">
+        <option value="2" selected>Season 2</option>
+        <option value="1">Season 1</option>
+      </select>
     </div>
 
     <div class="table-responsive">
@@ -24,7 +31,6 @@
             <th class="green-header">Player</th>
             <th class="orange-header">Matches Played</th>
             <th class="green-header">G/A</th>
-            <th class="orange-header">Average G/A</th>
           </tr>
         </thead>
         <tbody id="stats-table-body"></tbody>
@@ -35,17 +41,23 @@
   </div>
 
   <script>
-    const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwZmik3dmqDvInH6sKe4QHVBZ9MJk4BmQOes6BN9BH1xIHOOE_tlK9jKrNwmeWkng8z/exec';
+    // Replace with your actual Apps Script URLs for Season 1 and 2
+    const SEASON_URLS = {
+      1: "https://script.google.com/macros/s/SEASON1_URL/exec",
+      2: "https://script.google.com/macros/s/SEASON2_URL/exec"
+    };
 
-    async function loadPlayerStats() {
-      const tableBody = document.getElementById('stats-table-body');
-      const loadingMessage = document.getElementById('loading-message');
-      tableBody.innerHTML = '';
-      loadingMessage.style.display = 'block';
+    async function loadPlayerStats(season) {
+      const tableBody = document.getElementById("stats-table-body");
+      const loadingMessage = document.getElementById("loading-message");
+
+      tableBody.innerHTML = "";
+      loadingMessage.style.display = "block";
 
       try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+        const response = await fetch(SEASON_URLS[season]);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
         const players = await response.json();
 
         if (players.length === 0) {
@@ -54,29 +66,35 @@
         }
 
         // Sort by G/A (descending)
-        players.sort((a, b) => (parseFloat(b['G/A']) || 0) - (parseFloat(a['G/A']) || 0));
-
-        const crownEmojis = ['👑', '🥈', '🥉'];
+        players.sort((a, b) => (parseFloat(b["G/A"]) || 0) - (parseFloat(a["G/A"]) || 0));
 
         players.forEach((player, index) => {
-          const row = document.createElement('tr');
-          const crown = crownEmojis[index] || '';
+          const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${crown} ${player.Player}</td>
-            <td>${player['Matches Played']}</td>
-            <td>${player['G/A']}</td>
-            <td>${player['Average G/A']}</td>
+            <td>
+              ${player.Player}
+              ${index === 0 ? " 👑" : index === 1 ? " 👑" : index === 2 ? " 👑" : ""}
+            </td>
+            <td>${player["Matches Played"]}</td>
+            <td>${player["G/A"]}</td>
           `;
           tableBody.appendChild(row);
         });
       } catch (error) {
         tableBody.innerHTML = `<tr><td colspan="3" style="color:red; text-align:center;">Failed to load stats: ${error.message}</td></tr>`;
       } finally {
-        loadingMessage.style.display = 'none';
+        loadingMessage.style.display = "none";
       }
     }
 
-    document.addEventListener('DOMContentLoaded', loadPlayerStats);
+    document.addEventListener("DOMContentLoaded", () => {
+      const seasonSelect = document.getElementById("season");
+      loadPlayerStats(seasonSelect.value);
+
+      seasonSelect.addEventListener("change", () => {
+        loadPlayerStats(seasonSelect.value);
+      });
+    });
   </script>
 </body>
 </html>
