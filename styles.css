@@ -1,119 +1,121 @@
+/* Base */
+* { box-sizing: border-box; }
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: rgba(255, 255, 255, 0.9);
-    color: #000;
-    margin: 0;
-    padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #fff;
+  color: #222;
+  margin: 0;
+  line-height: 1.6;
 }
-
 .container {
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 0 20px;
 }
 
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+/* Header (homepage + stats) */
+.site-header,
+.stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.logo { height: 72px; }
+h1 { margin: 0; font-size: 2.2rem; font-weight: 700; }
+
+/* Homepage bubble + hero */
+.bubble {
+  margin-left: auto;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 10px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.bubble:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+.season-badge {
+  display: inline-block;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ff7f27; /* saffron/orange */
+  transform: rotate(-6deg);
+  margin: 10px 0 20px;
+}
+.hero { text-align: center; margin-top: 10px; }
+.hero p { margin: 10px 0 20px; }
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  background: #138808; /* India green */
+  color: #fff;
+  transition: background .2s;
+}
+.btn:hover { background: #0f6f06; }
+.btn-green { background: #28a745; }
+.btn-green:hover { background: #218838; }
+
+/* Season selector */
+.season-controls {
+  margin: 10px 0 20px;
+  text-align: center;
+}
+.season-controls select {
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
 }
 
-.header img {
-    width: 50px;
-    height: 50px;
-}
-
-.header h1 {
-    font-size: 28px;
-    margin: 0;
-}
-
-.nav-button {
-    display: inline-block;
-    margin-bottom: 15px;
-    padding: 8px 12px;
-    background-color: #28a745;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.table-responsive {
-    overflow-x: auto;
-}
-
+/* Table */
+.table-wrap { position: relative; }
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 16px;
+}
+th, td {
+  padding: 12px 14px;
+  border: 1px solid #eee; /* softer borders */
+  text-align: center;
+}
+thead th {
+  color: #fff;
+  font-weight: 700;
+}
+.th-green { background: #138808; }  /* green */
+.th-orange { background: #ff7f27; } /* orange */
+
+/* Stripes */
+tbody tr:nth-child(even) { background: #fafafa; }
+tbody tr:nth-child(odd)  { background: #fff; }
+
+/* Loading */
+.loading {
+  display: none;
+  margin-top: 12px;
+  color: #555;
+  font-size: 0.95rem;
 }
 
-th {
-    padding: 12px;
-    text-align: left;
-    font-size: 18px;
+/* Footer credit */
+.credit {
+  margin-top: 28px;
+  font-size: 14px;
+  color: #000;
+  text-align: center;
 }
-
-.green {
-    background-color: #d6f5d6;
-}
-
-.orange {
-    background-color: #ffe0b3;
-}
-
-td {
-    padding: 12px;
-    font-size: 16px;
-    border-bottom: 1px solid #ccc;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:nth-child(odd) {
-    background-color: #ffffff;
-}
-
-.crown {
-    font-size: 18px;
-    margin-right: 4px;
-    animation: spin 3s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.top-1 td {
-    font-weight: bold;
-    color: #daa520;
-}
-
-.top-2 td {
-    font-weight: bold;
-    color: #c0c0c0;
-}
-
-.top-3 td {
-    font-weight: bold;
-    color: #cd7f32;
-}
-
-#loading-message {
-    margin-top: 20px;
-    font-style: italic;
-    text-align: center;
-}
-
-.credit-text {
-    font-size: 14px;
-    text-align: center;
-    color: black;
-    margin-top: 30px;
-}
-
-    
