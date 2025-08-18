@@ -1,85 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Indian Soccer League</title>
-  <link rel="icon" href="logo.png" type="image/png">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f5f5f5;
-      text-align: center;
-    }
-
-    header {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header img {
-      height: 60px;
-    }
-
-    .season-banner {
-      font-size: 3em;
-      font-weight: bold;
-      color: orange;
-      transform: rotate(-10deg);
-      display: inline-block;
-      margin-top: 20px;
-    }
-
-    .message-bubble {
-      position: absolute;
-      right: 40px;
-      top: 80px;
-      background: #fff;
-      padding: 15px 25px;
-      border-radius: 25px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      cursor: pointer;
-      font-size: 1.1em;
-      transition: transform 0.2s ease;
-    }
-
-    .message-bubble:hover {
-      transform: scale(1.05);
-    }
-
-    footer {
-      margin-top: 50px;
-      padding: 10px;
-      font-size: 0.9em;
-      color: #333;
-    }
-  </style>
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="container">
+    <header class="site-header">
+      <img src="logo.png" alt="ISL Logo" class="logo" />
+      <div class="bubble" onclick="location.href='stats.html'">
+        “Catch me if you can” — Arav Bansal
+      </div>
+    </header>
 
-  <header>
-    <img src="logo.png" alt="ISL Logo">
-    <div class="message-bubble" onclick="location.href='stats.html'">
-      “Catch me if you can” – Arav Bansal
+    <h1 class="season-badge">Season 2</h1>
+
+    <div class="hero">
+      <h2>Welcome to the Indian Soccer League</h2>
+      <p>Explore player stats, fixtures, and highlights.</p>
+      <a class="btn" href="stats.html">View Stats</a>
     </div>
-  </header>
 
-  <main>
-    <div class="season-banner">Season 2</div>
-    <h2>Welcome to the Indian Soccer League</h2>
-    <p>Explore stats, matches, and player performances.</p>
-    <button onclick="location.href='stats.html'">View Stats</button>
-  </main>
-
-  <footer>
-    Made by Vishruth Pidatala © 2025
-  </footer>
-
+    <footer class="credit">Made by Vishruth Pidatala</footer>
+  </div>
 </body>
 </html>
-
