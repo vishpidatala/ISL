@@ -4,250 +4,124 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ISL Player Stats</title>
-  <style>
-    /* Clean, simple, spaced layout (like before) */
-    body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background-color: #ffffff;
-      margin: 0;
-      padding: 0;
-      color: #222;
-      text-align: center;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 50px auto;
-      padding: 20px;
-      position: relative;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .logo { height: 80px; }
-
-    h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #222;
-    }
-
-    .nav-button {
-      display: inline-block;
-      padding: 12px 24px;
-      margin-bottom: 20px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #28a745; /* Indian green */
-      text-decoration: none;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
-    .nav-button:hover { background-color: #218838; }
-
-    /* Season dropdown */
-    .season-select {
-      margin: 30px 0 10px;
-      font-size: 17px;
-    }
-    .season-select label {
-      margin-right: 12px;
-      font-weight: bold;
-    }
-    .season-select select {
-      padding: 6px 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    /* Table */
-    .table-responsive {
-      margin-top: 20px;
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto;
-      font-size: 16px;
-    }
-    th, td {
-      padding: 14px;
-      border: 1px solid #eee; /* lighter, softer */
-      text-align: center;
-    }
-
-    /* Alternating header colors (India flag) */
-    thead th:nth-child(1) { background-color: #28a745; color: #fff; } /* green */
-    thead th:nth-child(2) { background-color: #ff6600; color: #fff; } /* orange */
-    thead th:nth-child(3) { background-color: #28a745; color: #fff; } /* green */
-
-    /* Clean striped rows + extra breathing room */
-    tr { height: 50px; }
-    tbody tr:nth-child(even) { background-color: #f9f9f9; }
-    tbody tr:nth-child(odd)  { background-color: #ffffff; }
-
-    /* Crowns for top 3 with subtle spin */
-    .crown { display: inline-block; animation: spin 3s linear infinite; }
-    @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
-
-    #loading-message { margin-top: 20px; font-size: 17px; color: #555; }
-
-    /* Season watermark (subtle) */
-    .season-watermark {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-15deg);
-      font-size: 100px;
-      font-weight: bold;
-      color: rgba(0, 128, 0, 0.07);
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
-    }
-
-    .credit { margin-top: 28px; font-size: 14px; color: #000; }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
-    <a href="index.html" class="nav-button">⬅ Back to Homepage</a>
 
-    <div class="header">
+    <a href="index.html" class="btn btn-green">⬅ Back to Homepage</a>
+
+    <header class="stats-header">
       <img src="logo.png" alt="ISL Logo" class="logo" />
       <h1>Player Stats</h1>
-    </div>
+    </header>
 
-    <!-- Watermark -->
-    <div id="seasonWatermark" class="season-watermark">Season 2</div>
-
-    <!-- Season dropdown -->
-    <div class="season-select">
+    <div class="season-controls">
       <label for="seasonSelect">Select Season:</label>
       <select id="seasonSelect">
-        <option value="2" selected>Season 2</option>
-        <option value="1">Season 1</option>
+        <option value="Season2" selected>Season 2</option>
+        <option value="Season1">Season 1</option>
       </select>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-wrap">
       <table id="statsTable">
         <thead>
           <tr>
-            <th>Player</th>
-            <th>Matches Played</th>
-            <th>G/A</th>
+            <th class="th-green">Player</th>
+            <th class="th-orange">Matches Played</th>
+            <th class="th-green">G/A</th>
+            <th class="th-orange">Average G/A</th>
           </tr>
         </thead>
         <tbody id="statsBody"></tbody>
       </table>
+      <div id="loading" class="loading">Loading stats…</div>
     </div>
 
-    <div id="loading-message" style="display:none;">Loading stats...</div>
-
-    <div class="credit">Made by Vishruth Pidatala</div>
+    <footer class="credit">Made by Vishruth Pidatala</footer>
   </div>
 
   <script>
-    // ====== CONFIG: Your single Apps Script Web App URL ======
-    const BASE_URL = "https://script.google.com/macros/s/AKfycbxW-kbQgxuHkPMMNQy2P6xB2c82OSUA3BkDUHqmYuUeZKtHTORMfh3TLKbSUjsP-4mR/exec"; // e.g., https://script.google.com/macros/s/AKfycb.../exec
+    // 🔗 PASTE YOUR WEB APP URL (ends with /exec)
+    const API_BASE = "https://script.google.com/macros/s/AKfycbyyEpoaSGqQPzxLZpzwZ_bVlEKpbC7mfa6gGPT5-GLiuDDBhw37mLdlBMwVIM8YbgvO/exec";
 
-    const seasonSelect = document.getElementById("seasonSelect");
-    const seasonWatermark = document.getElementById("seasonWatermark");
-    const tbody = document.getElementById("statsBody");
-    const loadingEl = document.getElementById("loading-message");
+    const seasonSelect = document.getElementById('seasonSelect');
+    const tbody = document.getElementById('statsBody');
+    const loading = document.getElementById('loading');
 
-    document.addEventListener("DOMContentLoaded", () => {
-      loadSeason("2"); // default Season 2
-      seasonSelect.addEventListener("change", (e) => loadSeason(e.target.value));
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSeason('Season2');
+      seasonSelect.addEventListener('change', e => loadSeason(e.target.value));
     });
 
-    async function loadSeason(season) {
+    async function loadSeason(seasonName) {
+      tbody.innerHTML = '';
+      showLoading(true);
+
       try {
-        showLoading(true);
-        seasonWatermark.textContent = season === "2" ? "Season 2" : "Season 1";
+        const url = `${API_BASE}?season=${encodeURIComponent(seasonName)}`;
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
 
-        const url = `${BASE_URL}?season=${encodeURIComponent(season)}`;
-        const res = await fetch(url, { cache: "no-store" }); // no-store to avoid stale cache
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
+        const rows = Array.isArray(data) ? data : [];
 
-        // Normalize data in case Season 1 returns different headers
-        const normalized = (Array.isArray(data) ? data : []).map(normalizeRow);
+        // Sort by Average G/A (numeric), fallback to G/A, highest first
+        rows.sort((a, b) => {
+          const avgA = toNum(a["Average G/A"]);
+          const avgB = toNum(b["Average G/A"]);
+          if (avgA !== avgB) return avgB - avgA;
+          return toNum(b["G/A"]) - toNum(a["G/A"]);
+        });
 
-        // Sort by G/A (descending)
-        normalized.sort((a, b) => (b.ga || 0) - (a.ga || 0));
-
-        renderRows(normalized);
+        renderRows(rows);
       } catch (err) {
-        console.error("Failed to fetch:", err);
-        tbody.innerHTML = `<tr><td colspan="3" style="color:red;">Failed to load stats. Check your Apps Script deployment access (must be "Anyone") and that the URL is correct.</td></tr>`;
+        console.error(err);
+        tbody.innerHTML = `<tr><td colspan="4" style="color:#c00;">Failed to fetch stats. Check Apps Script deployment (“Anyone” access) and the URL.</td></tr>`;
       } finally {
         showLoading(false);
       }
     }
 
-    function normalizeRow(row) {
-      // Accept both our normalized API keys and any old Season 1 headers
-      const player =
-        row.player ?? row.Player ?? row["Player Name"] ?? row.Name ?? "";
-      const matches =
-        row.matches ?? row["Matches Played"] ?? row.Matches ?? "";
-      const gaRaw =
-        row.ga ?? row["G/A Per Game"] ?? row["G/A"] ?? row.GA ?? row["G A"] ?? 0;
-
-      return {
-        player: String(player),
-        matches: matches === undefined || matches === null ? "" : String(matches),
-        ga: Number(gaRaw) || 0
-      };
-    }
-
     function renderRows(rows) {
-      tbody.innerHTML = "";
-
       if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="3" style="opacity:.7;">No player stats yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="opacity:.7;">No stats yet.</td></tr>`;
         return;
       }
 
       rows.forEach((r, i) => {
-        const tr = document.createElement("tr");
-        const crown =
-          i === 0 ? '<span class="crown">👑</span> ' :
-          i === 1 ? '<span class="crown">🥈</span> ' :
-          i === 2 ? '<span class="crown">🥉</span> ' : "";
+        const tr = document.createElement('tr');
+
+        // Simple crowns (no animation) to keep it easy on the eyes
+        const crown = i === 0 ? " 👑" : i === 1 ? " 🥈" : i === 2 ? " 🥉" : "";
 
         tr.innerHTML = `
-          <td>${crown}${escapeHtml(r.player)}</td>
-          <td>${escapeHtml(r.matches)}</td>
-          <td>${Number.isFinite(r.ga) ? r.ga : ""}</td>
+          <td>${escapeHtml(r["Player"] ?? "")}${crown}</td>
+          <td>${escapeHtml(r["Matches Played"] ?? "")}</td>
+          <td>${escapeHtml(r["G/A"] ?? "")}</td>
+          <td>${escapeHtml(r["Average G/A"] ?? "")}</td>
         `;
         tbody.appendChild(tr);
       });
     }
 
     function showLoading(show) {
-      loadingEl.style.display = show ? "block" : "none";
+      loading.style.display = show ? 'block' : 'none';
+    }
+
+    function toNum(v) {
+      const n = Number(String(v).replace(/[^0-9.\-]/g, ''));
+      return Number.isFinite(n) ? n : 0;
     }
 
     function escapeHtml(s) {
       return String(s)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#39;');
     }
   </script>
 </body>
