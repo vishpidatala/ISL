@@ -1,121 +1,157 @@
-/* Base */
-* { box-sizing: border-box; }
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: #fff;
-  color: #222;
+/* ========= Global Reset ========= */
+* {
   margin: 0;
-  line-height: 1.6;
-}
-.container {
-  max-width: 1000px;
-  margin: 50px auto;
-  padding: 0 20px;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Header (homepage + stats) */
-.site-header,
-.stats-header {
+body {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #222;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 24px;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
-.logo { height: 72px; }
-h1 { margin: 0; font-size: 2.2rem; font-weight: 700; }
 
-/* Homepage bubble + hero */
-.bubble {
-  margin-left: auto;
-  background: #fff;
-  border: 1px solid #eee;
-  padding: 10px 16px;
-  border-radius: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.06);
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: transform .15s ease, box-shadow .15s ease;
+/* ========= Homepage ========= */
+.season-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(255, 153, 51, 0.08); /* light saffron */
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
 }
-.bubble:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-}
-.season-badge {
-  display: inline-block;
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #ff7f27; /* saffron/orange */
-  transform: rotate(-6deg);
-  margin: 10px 0 20px;
-}
-.hero { text-align: center; margin-top: 10px; }
-.hero p { margin: 10px 0 20px; }
 
-/* Buttons */
-.btn {
+.container {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  margin-top: 10vh;
+}
+
+.logo {
+  width: 180px;
+  margin-bottom: 20px;
+}
+
+.box {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  border-radius: 10px;
   display: inline-block;
-  padding: 10px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.box h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #138808, #FF9933); /* Indian flag colors */
+  color: white;
+  border: none;
   border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  background: #138808; /* India green */
-  color: #fff;
-  transition: background .2s;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
 }
-.btn:hover { background: #0f6f06; }
-.btn-green { background: #28a745; }
-.btn-green:hover { background: #218838; }
 
-/* Season selector */
-.season-controls {
-  margin: 10px 0 20px;
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* ========= Stats Page ========= */
+.stats-container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 20px;
   text-align: center;
 }
-.season-controls select {
-  padding: 6px 10px;
-  font-size: 0.95rem;
-  border: 1px solid #ccc;
+
+.stats-container h1 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  color: #222;
+}
+
+/* Dropdown */
+.season-select {
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  font-size: 15px;
   border-radius: 6px;
-  background: #fff;
+  border: 1px solid #ccc;
 }
 
 /* Table */
-.table-wrap { position: relative; }
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0 auto;
-  font-size: 16px;
+  margin-top: 10px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
+
 th, td {
-  padding: 12px 14px;
-  border: 1px solid #eee; /* softer borders */
+  padding: 12px 15px;
   text-align: center;
 }
-thead th {
-  color: #fff;
-  font-weight: 700;
-}
-.th-green { background: #138808; }  /* green */
-.th-orange { background: #ff7f27; } /* orange */
 
-/* Stripes */
-tbody tr:nth-child(even) { background: #fafafa; }
-tbody tr:nth-child(odd)  { background: #fff; }
-
-/* Loading */
-.loading {
-  display: none;
-  margin-top: 12px;
-  color: #555;
-  font-size: 0.95rem;
+th {
+  background: #138808; /* default green */
+  color: white;
 }
 
-/* Footer credit */
-.credit {
-  margin-top: 28px;
-  font-size: 14px;
-  color: #000;
-  text-align: center;
+th:nth-child(2) {
+  background: #FF9933; /* orange for Matches */
+}
+
+th:nth-child(4) {
+  background: #FF9933; /* orange for Avg G/A */
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+tr:nth-child(odd) {
+  background: #fff;
+}
+
+/* ========= Crowns & Animations ========= */
+.crown {
+  font-size: 18px;
+  margin-left: 6px;
+  display: inline-block;
+  animation: spin 3s linear infinite;
+}
+
+.gold {
+  color: gold;
+}
+
+.silver {
+  color: silver;
+}
+
+.bronze {
+  color: #cd7f32;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
