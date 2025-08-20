@@ -1,157 +1,108 @@
-/* ========= Global Reset ========= */
+/* Reset + Fonts */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #ffffff;
+  background: #fdfdfd;
   color: #222;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  overflow-x: hidden;
+  line-height: 1.6;
 }
 
-/* ========= Homepage ========= */
-.season-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-20deg);
-  font-size: 80px;
-  font-weight: 900;
-  color: rgba(255, 153, 51, 0.08); /* light saffron */
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 0;
-}
-
+/* Container */
 .container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+header {
   text-align: center;
-  position: relative;
-  z-index: 1;
-  margin-top: 10vh;
+  margin-bottom: 30px;
 }
 
 .logo {
-  width: 180px;
-  margin-bottom: 20px;
+  width: 100px;
+  display: block;
+  margin: 0 auto 10px;
 }
 
-.box {
-  background: rgba(0, 0, 0, 0.05);
-  padding: 30px;
-  border-radius: 10px;
-  display: inline-block;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+header h1 {
+  font-size: 2.2rem;
+  color: #2d572c; /* dark green */
 }
 
-.box h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #1a1a1a;
-}
-
-button {
-  padding: 12px 25px;
-  font-size: 16px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #138808, #FF9933); /* Indian flag colors */
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s, opacity 0.2s;
-}
-
-button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-
-/* ========= Stats Page ========= */
-.stats-container {
-  max-width: 900px;
-  margin: 60px auto;
-  padding: 20px;
+/* Hero (front page) */
+.hero {
   text-align: center;
+  padding: 40px 20px;
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
 }
 
-.stats-container h1 {
-  margin-bottom: 20px;
-  font-size: 32px;
-  color: #222;
+.season-title {
+  font-size: 2rem;
+  color: #f77f00; /* orange */
+  transform: skew(-5deg);
+  margin-bottom: 15px;
 }
 
-/* Dropdown */
-.season-select {
-  margin-bottom: 20px;
-  padding: 8px 14px;
-  font-size: 15px;
+.hero p {
+  margin: 10px 0 20px;
+  color: #444;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  background: #2d572c;
+  color: white;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
 }
 
-/* Table */
+.btn:hover {
+  background: #f77f00;
+}
+
+/* Stats Table (kept same style as before) */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
-  background: #fff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-top: 20px;
 }
 
 th, td {
-  padding: 12px 15px;
+  padding: 12px;
   text-align: center;
+  border-bottom: 1px solid #ddd;
 }
 
-th {
-  background: #138808; /* default green */
+th.green {
+  background-color: #2d572c;
   color: white;
 }
 
-th:nth-child(2) {
-  background: #FF9933; /* orange for Matches */
+th.orange {
+  background-color: #f77f00;
+  color: white;
 }
 
-th:nth-child(4) {
-  background: #FF9933; /* orange for Avg G/A */
+tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.05);
 }
 
-tr:nth-child(even) {
-  background: #f9f9f9;
-}
-
-tr:nth-child(odd) {
-  background: #fff;
-}
-
-/* ========= Crowns & Animations ========= */
-.crown {
-  font-size: 18px;
-  margin-left: 6px;
-  display: inline-block;
-  animation: spin 3s linear infinite;
-}
-
-.gold {
-  color: gold;
-}
-
-.silver {
-  color: silver;
-}
-
-.bronze {
-  color: #cd7f32;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: #555;
 }
