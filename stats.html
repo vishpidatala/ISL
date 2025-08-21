@@ -43,7 +43,7 @@
   </div>
 
   <script>
-    // 🔗 PASTE YOUR WEB APP URL (ends with /exec)
+    // 🔗 Your Google Apps Script Web App URL
     const API_BASE = "https://script.google.com/macros/s/AKfycby4on1tzzQs6CBpSQPLhebTRa6Gs3Xwqd2VT8mdc4YdQNmlCw_knBNcI3rD8mGeQmtd/exec";
 
     const seasonSelect = document.getElementById('seasonSelect');
@@ -67,18 +67,13 @@
         const data = await res.json();
         const rows = Array.isArray(data) ? data : [];
 
-        // Sort by Average G/A (numeric), fallback to G/A, highest first
-        rows.sort((a, b) => {
-          const avgA = toNum(a["Average G/A"]);
-          const avgB = toNum(b["Average G/A"]);
-          if (avgA !== avgB) return avgB - avgA;
-          return toNum(b["G/A"]) - toNum(a["G/A"]);
-        });
+        // ✅ Sort ONLY by G/A (highest first)
+        rows.sort((a, b) => toNum(b["G/A"]) - toNum(a["G/A"]));
 
         renderRows(rows);
       } catch (err) {
         console.error(err);
-        tbody.innerHTML = `<tr><td colspan="4" style="color:#c00;">Failed to fetch stats. Check Apps Script deployment (“Anyone” access) and the URL.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="color:#c00;">Failed to fetch stats. Check Apps Script deployment and sheet headers.</td></tr>`;
       } finally {
         showLoading(false);
       }
@@ -93,14 +88,20 @@
       rows.forEach((r, i) => {
         const tr = document.createElement('tr');
 
-        // Simple crowns (no animation) to keep it easy on the eyes
+        // Crowns for top 3
         const crown = i === 0 ? " 👑" : i === 1 ? " 🥈" : i === 2 ? " 🥉" : "";
 
+        // Use fallback keys to avoid blank Season 1 names
+        const player = r["Player"] ?? r["Players"] ?? "";
+        const matches = r["Matches Played"] ?? r["Matches"] ?? "";
+        const ga = r["G/A"] ?? r["Goals/Assists"] ?? "";
+        const avg = r["Average G/A"] ?? r["Avg G/A"] ?? "";
+
         tr.innerHTML = `
-          <td>${escapeHtml(r["Player"] ?? "")}${crown}</td>
-          <td>${escapeHtml(r["Matches Played"] ?? "")}</td>
-          <td>${escapeHtml(r["G/A"] ?? "")}</td>
-          <td>${escapeHtml(r["Average G/A"] ?? "")}</td>
+          <td>${escapeHtml(player)}${crown}</td>
+          <td>${escapeHtml(matches)}</td>
+          <td>${escapeHtml(ga)}</td>
+          <td>${escapeHtml(avg)}</td>
         `;
         tbody.appendChild(tr);
       });
